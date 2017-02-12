@@ -1,20 +1,41 @@
+import ApolloClient from 'apollo-client';
+
+import getQueriesFromIntrospection from './getQueriesFromIntrospection';
 import getApolloPromise from './getApolloPromise';
 import buildApolloParams from './buildApolloParams';
 import parseApolloResponse from './parseApolloResponse';
 import handleError from './handleError';
-import getQueriesFromIntrospection from './getQueriesFromIntrospection';
+
+const getClient = (options) => {
+    if (options.client) return options.client;
+
+    return new ApolloClient(options.clientOptions);
+};
+
+const getQueries = async (options) => {
+    if (options.queries) return options.queries;
+
+    const url = options.client.networkInterface._uri; // eslint-disable-line
+    return getQueriesFromIntrospection({
+        url,
+        ...options.introspection,
+    });
+};
+
 /**
  * Maps admin-on-rest queries to an Apollo GraphQL endpoint
- * @param {Object} client The Apollo client
- * @returns {Object} queries An object with properties named according to each resource,
- *                           each one with properties named according to each request type
+ * @param {Object} options
  */
-export default async (client, userQueries) => {
-    let queries = userQueries;
+export default async (options) => {
+    let finalOptions = options;
 
-    if (!userQueries) {
-        queries = await getQueriesFromIntrospection(client.networkInterface._uri); // eslint-disable-line
+    if (!options) {
+        finalOptions = {};
     }
+    const client = getClient(finalOptions);
+    finalOptions.client = client;
+
+    const queries = await getQueries(finalOptions);
 
     /**
      * @param {string} type Request type, e.g GET_LIST
@@ -28,4 +49,4 @@ export default async (client, userQueries) => {
         const promise = getApolloPromise(client)(type, apolloParams).catch(handleError);
         return promise.then(response => parseApolloResponse(response, type, resource, apolloParams));
     };
-}
+};

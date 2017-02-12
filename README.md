@@ -22,7 +22,6 @@ Let's create a file for our admin page `admin.js`:
 
 ```js
 import React, { Component } from 'react';
-import ApolloClient from 'apollo-client';
 import { buildApolloClient } from 'aor-simple-graphql-client';
 
 import { Admin, Resource } from 'admin-on-rest';
@@ -40,7 +39,7 @@ class AdminPage extends Component {
         this.state = { restClient: null };
     }
     componentDidMount() {
-        buildApolloClient(client)
+        buildApolloClient()
             .then(restClient => this.setState({ restClient }));
     }
 
@@ -60,4 +59,114 @@ class AdminPage extends Component {
 }
 
 export default AdminPage;
+```
+
+And that's it, `buildApolloClient` will create a default ApolloClient for you and run an introspection query on your graphql endpoint.
+
+By default, it expect the following queries and mutations for each resource:
+
+### List resources with pagination
+
+```graphql
+getPageOf[ResourceName](page: Int, perPage: Int, sortField: String, sortOrder: String, filter: String) {
+    items: [ResourceObject]
+    totalCount: Int
+}
+```
+
+`filter` may contain a serialized JSON object.
+
+### Get a resource
+
+```graphql
+get[ResourceName](id: ID!) [ResourceObject]
+```
+
+### Create a new resource
+
+```graphql
+create[ResourceName](data: String) ResourceObject
+```
+
+`data` is a serialized JSON object
+
+### Update a resource
+
+```graphql
+update[ResourceName](data: String) ResourceObject
+```
+
+`data` is a serialized JSON object
+
+### Remove a resource
+
+```graphql
+remove[ResourceName](id: ID!) Boolean
+```
+
+## Options
+
+### Customize the Apollo client
+
+You can either supply the client options by calling `buildApolloClient` like this:
+
+```js
+buildApolloClient({ clientOptions: { url: 'http://localhost:3000', ...otherOptions } });
+```
+
+Or supply your client directly with:
+
+```js
+buildApolloClient({ client: myClient });
+```
+
+### Customize the introspection
+
+```js
+const introspectionOptions = {
+    url: null, // The url of the GraphQL endpoint, if not supplied, will fall back on the client network interface url
+    includeTypes: // Either an array of types to include or a function which will be called with each OBJECT type discovered through introspection
+    excludeTypes: // Either an array of types to exclude or a function which will be called with each OBJECT type discovered through introspection (`Query` and `Mutation` are excluded anyway)
+    includeQueries: null, // Either an array of queries to include or a function which will be called with each query discovered through introspection
+    excludeQueries: null, // Either an array of queries to exclude or a function which will be called with each query discovered through introspection
+    includeMutations: null, // Either an array of mutations to include or a function which will be called with each mutation discovered through introspection
+    excludeMutations: null, // Either an array of mutations to exclude or a function which will be called with each mutation discovered through introspection
+    excludeFields: null, // Either an array of fields to exclude or a function which will be called with each field discovered through introspection on a specific object (more details below)
+
+    // This contains templates for defining the queries and mutations names which will also be used as the operations names
+    templates: {
+        GET_LIST: resourceType => `getPageOf${pluralize(resourceType.name)}`,
+        GET_ONE: resourceType => `get${resourceType.name}`,
+        CREATE: resourceType => `create${resourceType.name}`,
+        UPDATE: resourceType => `update${resourceType.name}`,
+        DELETE: resourceType => `remove${resourceType.name}`,
+    },
+}
+
+buildApolloClient({ introspection: introspectionOptions });
+
+```
+
+Note that `excludeXXX` and `includeXXX` are mutualy exclusives and that `includeXXX` will always take precendance.
+
+`excludeFields` deserves more details. If supplying a function, it will receive the following parameters:
+
+- `field`: the field definition (see http://graphql.org/learn/introspection/ for more details)
+- `resource`: the resource type
+- `type`: the operation type (matching those of **admin-on-rest**)
+
+### Supply your own queries and mutations
+
+You need more control? Then provide your queries with the following format:
+
+```js
+const queries = {
+    Post: {
+        GET_LIST: () => gql`your query`, // Variables will be: { page: Int, perPage: Int, sortFilter: String, sortOrder: String, filter: String }
+        GET_ONE: () => gql`your query`, // Variables will be: { id: ID }
+        CREATE: () => gql`your query`, // Variables will be: { data: String }
+        UPDATE: () => gql`your query`, // Variables will be: { data: String }
+        DELETE: () => gql`your query`, // Variables will be: { id: ID }
+    }
+}
 ```

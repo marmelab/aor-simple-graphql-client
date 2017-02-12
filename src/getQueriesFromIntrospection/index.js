@@ -64,7 +64,7 @@ export const buildQueriesForResource = (resource, queries, mutations, options) =
 export const isValidResource = value => Object.keys(value).every(key => !!value[key]);
 
 export const defaultOptions = {
-    url: 'http://localhost:3000/graphql',
+    url: null,
     includeTypes: null,
     excludeTypes: null,
     includeQueries: null,
@@ -73,11 +73,11 @@ export const defaultOptions = {
     excludeMutations: null,
     excludeFields: null,
     templates: {
-        GET_LIST: resource => `getPageOf${pluralize(resource.name)}`,
-        GET_ONE: resource => `get${resource.name}`,
-        CREATE: resource => `create${resource.name}`,
-        UPDATE: resource => `update${resource.name}`,
-        DELETE: resource => `remove${resource.name}`,
+        GET_LIST: resourceType => `getPageOf${pluralize(resourceType.name)}`,
+        GET_ONE: resourceType => `get${resourceType.name}`,
+        CREATE: resourceType => `create${resourceType.name}`,
+        UPDATE: resourceType => `update${resourceType.name}`,
+        DELETE: resourceType => `remove${resourceType.name}`,
     },
 };
 
@@ -89,7 +89,7 @@ export default async (userOptions = defaultOptions) => {
     }
 
     if (typeof userOptions === 'object') {
-        options = merge({}, userOptions, defaultOptions);
+        options = merge({}, defaultOptions, userOptions);
     }
 
     const schema = await fetchSchema(options.url);
