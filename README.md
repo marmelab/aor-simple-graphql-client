@@ -67,8 +67,10 @@ By default, it expect the following queries and mutations for each resource:
 
 ### List resources with pagination
 
+Example with resource `Post`:
+
 ```graphql
-getPageOf[ResourceName](page: Int, perPage: Int, sortField: String, sortOrder: String, filter: String) {
+getPageOfPost(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: String) {
     items: [ResourceObject]
     totalCount: Int
 }
@@ -82,14 +84,18 @@ getPageOf[ResourceName](page: Int, perPage: Int, sortField: String, sortOrder: S
 
 ### Get a resource
 
+Example with resource `Post`:
+
 ```graphql
-get[ResourceName](id: ID!) [ResourceObject]
+getPost(id: ID!) [ResourceObject]
 ```
 
 ### Create a new resource
 
+Example with resource `Post`:
+
 ```graphql
-create[ResourceName](data: String) ResourceObject
+createPost(data: String) ResourceObject
 ```
 
 `data` is a serialized JSON object, for example:
@@ -100,8 +106,10 @@ create[ResourceName](data: String) ResourceObject
 
 ### Update a resource
 
+Example with resource `Post`:
+
 ```graphql
-update[ResourceName](data: String) ResourceObject
+updatePost(data: String) ResourceObject
 ```
 
 `data` is a serialized JSON object, for example:
@@ -112,8 +120,10 @@ update[ResourceName](data: String) ResourceObject
 
 ### Remove a resource
 
+Example with resource `Post`:
+
 ```graphql
-remove[ResourceName](id: ID!) Boolean
+removePost(id: ID!) Boolean
 ```
 
 ## Options
