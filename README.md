@@ -70,11 +70,13 @@ By default, it expect the following queries and mutations for each resource:
 Example with resource `Post`:
 
 ```graphql
-getPageOfPost(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: String) {
+getPageOfPosts(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: String) {
     items: [ResourceObject]
     totalCount: Int
 }
 ```
+
+Note that the function should be named with the plural version of `Post`.
 
 `filter` may contain a serialized JSON object, for example:
 
