@@ -74,7 +74,11 @@ getPageOf[ResourceName](page: Int, perPage: Int, sortField: String, sortOrder: S
 }
 ```
 
-`filter` may contain a serialized JSON object.
+`filter` may contain a serialized JSON object, for example:
+
+```js
+'{ "authorId": "4e80878c-6baa-4506-a93c-ef99b74e73e0" }'
+```
 
 ### Get a resource
 
@@ -88,7 +92,11 @@ get[ResourceName](id: ID!) [ResourceObject]
 create[ResourceName](data: String) ResourceObject
 ```
 
-`data` is a serialized JSON object
+`data` is a serialized JSON object, for example:
+
+```js
+'{ "title": "My first post", "authorId": "4e80878c-6baa-4506-a93c-ef99b74e73e0", "body": "..." }'
+```
 
 ### Update a resource
 
@@ -96,7 +104,11 @@ create[ResourceName](data: String) ResourceObject
 update[ResourceName](data: String) ResourceObject
 ```
 
-`data` is a serialized JSON object
+`data` is a serialized JSON object, for example:
+
+```js
+'{ "id": "c02e92e8-2a21-4ae7-9197-cb9601861a44", "title": "My first post", "authorId": "4e80878c-6baa-4506-a93c-ef99b74e73e0", "body": "..." }'
+```
 
 ### Remove a resource
 
@@ -175,3 +187,10 @@ const queries = {
     }
 }
 ```
+
+## TODO
+
+- Makefile
+- Tests
+- More doc concerning the GraphQL endpoint side
+- Sample application
