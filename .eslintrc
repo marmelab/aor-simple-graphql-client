@@ -1,0 +1,12 @@
+{
+    "env": {
+        "node": true,
+        "mocha": true
+    },
+    "extends": "airbnb-base",
+    "rules": {
+        "indent": ["error", 4],
+        "max-len": ["error", { "code": 120, "tabWidth": 4, "ignoreUrls": true, "ignoreComments": true, "ignoreStrings": true }],
+        "no-param-reassign": ["error", { "props": false }]
+    }
+}
