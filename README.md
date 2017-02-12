@@ -122,11 +122,13 @@ buildApolloClient({ client: myClient });
 
 ### Customize the introspection
 
+These are the default options for introspection:
+
 ```js
 const introspectionOptions = {
     url: null, // The url of the GraphQL endpoint, if not supplied, will fall back on the client network interface url
-    includeTypes: // Either an array of types to include or a function which will be called with each OBJECT type discovered through introspection
-    excludeTypes: // Either an array of types to exclude or a function which will be called with each OBJECT type discovered through introspection (`Query` and `Mutation` are excluded anyway)
+    includeTypes: null, // Either an array of types to include or a function which will be called with each OBJECT type discovered through introspection
+    excludeTypes: null, // Either an array of types to exclude or a function which will be called with each OBJECT type discovered through introspection (`Query` and `Mutation` are excluded anyway)
     includeQueries: null, // Either an array of queries to include or a function which will be called with each query discovered through introspection
     excludeQueries: null, // Either an array of queries to exclude or a function which will be called with each query discovered through introspection
     includeMutations: null, // Either an array of mutations to include or a function which will be called with each mutation discovered through introspection
@@ -142,9 +144,12 @@ const introspectionOptions = {
         DELETE: resourceType => `remove${resourceType.name}`,
     },
 }
+```
 
+And how you pass them to the `buildApolloClient` function:
+
+```js
 buildApolloClient({ introspection: introspectionOptions });
-
 ```
 
 Note that `excludeXXX` and `includeXXX` are mutualy exclusives and that `includeXXX` will always take precendance.
