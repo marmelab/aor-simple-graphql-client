@@ -10,7 +10,8 @@
     "build": "NODE_ENV=production babel --out-dir=lib --stage=0 --ignore=*.spec.js src",
     "clean": "rm -rf lib",
     "prepublish": "npm run clean && npm run build",
-    "test": "NODE_ENV=test mocha --compilers js:babel-core/register --colors --reporter=spec --timeout=10000 --recursive --sort 'src/**/*.spec.js'"
+    "test": "NODE_ENV=test mocha --compilers js:babel-core/register --colors --reporter=spec --timeout=10000 --recursive --sort 'src/**/*.spec.js'",
+    "watch-test": "NODE_ENV=test mocha --watch --compilers js:babel-core/register --colors --reporter=spec --timeout=10000 --recursive --sort 'src/**/*.spec.js'"
   },
   "devDependencies": {
     "babel-cli": "6.22.2",

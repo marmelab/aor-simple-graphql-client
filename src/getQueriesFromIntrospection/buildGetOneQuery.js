@@ -2,14 +2,15 @@ import gql from 'graphql-tag';
 import buildFieldList from './buildFieldList';
 import { GET_ONE } from '../constants';
 
-export default (resource, queries, options) => {
+export const buildGetOneQueryFactory = buildFieldListImpl => (resource, queries, options) => {
     const operationName = options.templates[GET_ONE](resource);
+    const query = queries.find(q => q.name === operationName);
 
-    if (!queries.some(q => q.name === operationName)) {
+    if (!query) {
         return undefined;
     }
 
-    const fields = buildFieldList(resource, GET_ONE, options);
+    const fields = buildFieldListImpl(resource, query, GET_ONE, options);
 
     return gql`
     query ${operationName}($id: ID!) {
@@ -18,3 +19,5 @@ export default (resource, queries, options) => {
         }
     }`;
 };
+
+export default buildGetOneQueryFactory(buildFieldList);

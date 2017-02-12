@@ -10,7 +10,7 @@ export default (resource, type, { excludeFields }) =>
                 }
 
                 if (typeof excludeFields === 'function') {
-                    return excludeFields(field, resource, type);
+                    return !excludeFields(field, resource, type);
                 }
             }
 

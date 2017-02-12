@@ -3,13 +3,15 @@ import buildFieldList from './buildFieldList';
 
 import { CREATE } from '../constants';
 
-export default (resource, mutations, options) => {
+export const buildCreateMutationFactory = buildFieldListImpl => (resource, mutations, options) => {
     const operationName = options.templates[CREATE](resource);
-    if (!mutations.some(q => q.name === operationName)) {
+    const mutation = mutations.find(q => q.name === operationName);
+
+    if (!mutation) {
         return undefined;
     }
 
-    const fields = buildFieldList(resource, CREATE, options);
+    const fields = buildFieldListImpl(resource, mutation, CREATE, options);
 
     return gql`
     mutation ${operationName}($data: String!) {
@@ -18,3 +20,5 @@ export default (resource, mutations, options) => {
         }
     }`;
 };
+
+export default buildCreateMutationFactory(buildFieldList);
