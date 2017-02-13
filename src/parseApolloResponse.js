@@ -9,11 +9,14 @@ import {
  * @returns {Object} The key to look for in the response data, depending on the type
  *                   (this is the name of the operation defined in the graphql query or mutation)
  */
-export const getApolloResultKey = (type, apolloParams) => (
+const getApolloResultKey = (type, apolloParams) => (
     QUERY_TYPES.includes(type)
     ? apolloParams.query.definitions[0].name.value
     : apolloParams.mutation.definitions[0].selectionSet.selections[0].name.value
 );
+
+export const buildGetListErrorMessage = resource =>
+    `The data returned by the graphql endpoint for the GET_LIST query on resource ${resource} does not contains a \`totalCount\` property which is needed to build the pagination. The query result must conform to this schema: \`{ totalCount: Int, items: [] }\``; // eslint-disable-line
 
 /**
  * @param {Object} response Apollo response
@@ -30,10 +33,10 @@ export default (response, type, resource, apolloParams) => {
     switch (type) {
     case GET_LIST: {
         if (typeof dataForType.totalCount !== 'number') {
-            throw new Error('The data returned by the graphql endpoint for the GET_LIST query does not contains a `totalCount` property which is needed to build the pagination. The query result must conform to this schema: `{ totalCount: Int, items: [] }`');
+            throw new Error(buildGetListErrorMessage(resource));
         }
         return {
-            data: dataForType.items.map(x => x),
+            items: dataForType.items.map(x => x),
             total: dataForType.totalCount,
         };
     }

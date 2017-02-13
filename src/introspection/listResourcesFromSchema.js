@@ -1,4 +1,4 @@
-import { isNotGraphqlPrivateType } from './lib';
+import isNotGraphqlPrivateType from './isNotGraphqlPrivateType';
 import filterWithIncludeExclude from './filterWithIncludeExclude';
 
 export const isObject = type => type.kind === 'OBJECT';

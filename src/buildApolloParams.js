@@ -22,7 +22,7 @@ export default (queries, type, resource, params) => {
             variables: {
                 page: params.pagination.page - 1,
                 perPage: params.pagination.perPage,
-                sortFilter: params.sort.field,
+                sortField: params.sort.field,
                 sortOrder: params.sort.order,
                 filter: JSON.stringify(params.filter),
             },
