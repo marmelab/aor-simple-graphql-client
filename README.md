@@ -1,5 +1,7 @@
 # aor-simple-graphql-client
 
+![Test coverage](./coverage/coverage.svg)
+
 A simple GraphQL client for [admin-on-rest](https://github.com/marmelab/admin-on-rest/)
 built with [Apollo](http://www.apollodata.com/)
 

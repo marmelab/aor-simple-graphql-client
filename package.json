@@ -23,6 +23,7 @@
     "eslint-config-airbnb-base": "11.1.0",
     "eslint-plugin-import": "2.2.0",
     "expect": "1.20.2",
+    "istanbul-cobertura-badger": "1.2.1",
     "mocha": "3.2.0",
     "nyc": "10.1.2"
   },

@@ -1,0 +1,502 @@
+<?xml version="1.0" ?>
+<!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
+<coverage lines-valid="116" lines-covered="105" line-rate="0.9052" branches-valid="58" branches-covered="56" branch-rate="0.9655" timestamp="1487022703993" complexity="0" version="0.1">
+  <sources>
+    <source>/home/gildas/projects/perso/aor-simple-graphql-client</source>
+  </sources>
+  <packages>
+    <package name="src" line-rate="1" branch-rate="1">
+      <classes>
+        <class name="buildApolloParams.js" filename="src/buildApolloParams.js" line-rate="1" branch-rate="1">
+          <methods>
+            <method name="(anonymous_0)" hits="8" signature="()V">
+              <lines>
+                <line number="17" hits="8"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="18" hits="8" branch="false"/>
+            <line number="20" hits="1" branch="false"/>
+            <line number="33" hits="1" branch="false"/>
+            <line number="41" hits="1" branch="false"/>
+            <line number="49" hits="1" branch="false"/>
+            <line number="57" hits="1" branch="false"/>
+            <line number="63" hits="1" branch="false"/>
+            <line number="69" hits="1" branch="false"/>
+            <line number="77" hits="1" branch="false"/>
+          </lines>
+        </class>
+        <class name="constants.js" filename="src/constants.js" line-rate="1" branch-rate="1">
+          <methods>
+          </methods>
+          <lines>
+            <line number="1" hits="1" branch="false"/>
+            <line number="2" hits="1" branch="false"/>
+            <line number="3" hits="1" branch="false"/>
+            <line number="4" hits="1" branch="false"/>
+            <line number="5" hits="1" branch="false"/>
+            <line number="6" hits="1" branch="false"/>
+            <line number="7" hits="1" branch="false"/>
+            <line number="9" hits="1" branch="false"/>
+            <line number="10" hits="1" branch="false"/>
+            <line number="11" hits="1" branch="false"/>
+          </lines>
+        </class>
+        <class name="getApolloPromise.js" filename="src/getApolloPromise.js" line-rate="1" branch-rate="1">
+          <methods>
+            <method name="(anonymous_0)" hits="8" signature="()V">
+              <lines>
+                <line number="6" hits="8"/>
+              </lines>
+            </method>
+            <method name="(anonymous_1)" hits="8" signature="()V">
+              <lines>
+                <line number="13" hits="8"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="13" hits="8" branch="false"/>
+            <line number="14" hits="8" branch="false"/>
+            <line number="15" hits="4" branch="false"/>
+            <line number="21" hits="4" branch="false"/>
+            <line number="22" hits="3" branch="false"/>
+            <line number="25" hits="1" branch="false"/>
+          </lines>
+        </class>
+        <class name="handleError.js" filename="src/handleError.js" line-rate="1" branch-rate="1">
+          <methods>
+            <method name="(anonymous_0)" hits="3" signature="()V">
+              <lines>
+                <line number="1" hits="3"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="2" hits="3" branch="false"/>
+            <line number="3" hits="1" branch="false"/>
+            <line number="6" hits="2" branch="false"/>
+            <line number="7" hits="1" branch="false"/>
+            <line number="10" hits="1" branch="false"/>
+          </lines>
+        </class>
+        <class name="parseApolloResponse.js" filename="src/parseApolloResponse.js" line-rate="1" branch-rate="1">
+          <methods>
+            <method name="(anonymous_0)" hits="8" signature="()V">
+              <lines>
+                <line number="12" hits="8"/>
+              </lines>
+            </method>
+            <method name="(anonymous_1)" hits="2" signature="()V">
+              <lines>
+                <line number="18" hits="2"/>
+              </lines>
+            </method>
+            <method name="(anonymous_2)" hits="8" signature="()V">
+              <lines>
+                <line number="28" hits="8"/>
+              </lines>
+            </method>
+            <method name="(anonymous_3)" hits="1" signature="()V">
+              <lines>
+                <line number="39" hits="1"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="12" hits="1" branch="false"/>
+            <line number="13" hits="8" branch="false"/>
+            <line number="18" hits="1" branch="false"/>
+            <line number="19" hits="2" branch="false"/>
+            <line number="29" hits="8" branch="false"/>
+            <line number="30" hits="8" branch="false"/>
+            <line number="31" hits="8" branch="false"/>
+            <line number="33" hits="8" branch="false"/>
+            <line number="35" hits="2" branch="false"/>
+            <line number="36" hits="1" branch="false"/>
+            <line number="38" hits="1" branch="false"/>
+            <line number="39" hits="1" branch="false"/>
+            <line number="45" hits="6" branch="false"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="src.introspection" line-rate="0.8936" branch-rate="0.9582999999999999">
+      <classes>
+        <class name="fetchSchema.js" filename="src/introspection/fetchSchema.js" line-rate="1" branch-rate="1">
+          <methods>
+            <method name="(anonymous_0)" hits="2" signature="()V">
+              <lines>
+                <line number="4" hits="2"/>
+              </lines>
+            </method>
+            <method name="(anonymous_1)" hits="2" signature="()V">
+              <lines>
+                <line number="4" hits="2"/>
+              </lines>
+            </method>
+            <method name="(anonymous_2)" hits="2" signature="()V">
+              <lines>
+                <line number="12" hits="2"/>
+              </lines>
+            </method>
+            <method name="(anonymous_3)" hits="2" signature="()V">
+              <lines>
+                <line number="13" hits="2"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="4" hits="2" branch="false"/>
+            <line number="12" hits="2" branch="false"/>
+            <line number="13" hits="2" branch="false"/>
+          </lines>
+        </class>
+        <class name="filterWithIncludeExclude.js" filename="src/introspection/filterWithIncludeExclude.js" line-rate="1" branch-rate="0.9375">
+          <methods>
+            <method name="(anonymous_0)" hits="8" signature="()V">
+              <lines>
+                <line number="1" hits="8"/>
+              </lines>
+            </method>
+            <method name="(anonymous_1)" hits="4" signature="()V">
+              <lines>
+                <line number="6" hits="4"/>
+              </lines>
+            </method>
+            <method name="(anonymous_2)" hits="4" signature="()V">
+              <lines>
+                <line number="10" hits="4"/>
+              </lines>
+            </method>
+            <method name="(anonymous_3)" hits="4" signature="()V">
+              <lines>
+                <line number="15" hits="4"/>
+              </lines>
+            </method>
+            <method name="(anonymous_4)" hits="17" signature="()V">
+              <lines>
+                <line number="18" hits="17"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="2" hits="8" branch="false"/>
+            <line number="4" hits="8" branch="false"/>
+            <line number="5" hits="2" branch="false"/>
+            <line number="6" hits="4" branch="false"/>
+            <line number="9" hits="1" branch="false"/>
+            <line number="10" hits="4" branch="false"/>
+            <line number="14" hits="6" branch="false"/>
+            <line number="15" hits="4" branch="false"/>
+            <line number="18" hits="17" branch="false"/>
+          </lines>
+        </class>
+        <class name="index.js" filename="src/introspection/index.js" line-rate="0.7917000000000001" branch-rate="1">
+          <methods>
+            <method name="(anonymous_0)" hits="14" signature="()V">
+              <lines>
+                <line number="22" hits="14"/>
+              </lines>
+            </method>
+            <method name="(anonymous_1)" hits="28" signature="()V">
+              <lines>
+                <line number="23" hits="28"/>
+              </lines>
+            </method>
+            <method name="(anonymous_2)" hits="35" signature="()V">
+              <lines>
+                <line number="25" hits="35"/>
+              </lines>
+            </method>
+            <method name="(anonymous_3)" hits="0" signature="()V">
+              <lines>
+                <line number="38" hits="0"/>
+              </lines>
+            </method>
+            <method name="(anonymous_4)" hits="0" signature="()V">
+              <lines>
+                <line number="39" hits="0"/>
+              </lines>
+            </method>
+            <method name="(anonymous_5)" hits="0" signature="()V">
+              <lines>
+                <line number="40" hits="0"/>
+              </lines>
+            </method>
+            <method name="(anonymous_6)" hits="0" signature="()V">
+              <lines>
+                <line number="41" hits="0"/>
+              </lines>
+            </method>
+            <method name="(anonymous_7)" hits="0" signature="()V">
+              <lines>
+                <line number="42" hits="0"/>
+              </lines>
+            </method>
+            <method name="(anonymous_8)" hits="8" signature="()V">
+              <lines>
+                <line number="46" hits="8"/>
+              </lines>
+            </method>
+            <method name="(anonymous_9)" hits="7" signature="()V">
+              <lines>
+                <line number="53" hits="7"/>
+              </lines>
+            </method>
+            <method name="(anonymous_10)" hits="14" signature="()V">
+              <lines>
+                <line number="69" hits="14"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="17" hits="1" branch="false"/>
+            <line number="22" hits="14" branch="false"/>
+            <line number="23" hits="28" branch="false"/>
+            <line number="25" hits="35" branch="false"/>
+            <line number="28" hits="1" branch="false"/>
+            <line number="38" hits="0" branch="false"/>
+            <line number="39" hits="0" branch="false"/>
+            <line number="40" hits="0" branch="false"/>
+            <line number="41" hits="0" branch="false"/>
+            <line number="42" hits="0" branch="false"/>
+            <line number="46" hits="1" branch="false"/>
+            <line number="53" hits="8" branch="false"/>
+            <line number="54" hits="7" branch="false"/>
+            <line number="56" hits="7" branch="false"/>
+            <line number="57" hits="1" branch="false"/>
+            <line number="60" hits="7" branch="false"/>
+            <line number="61" hits="6" branch="false"/>
+            <line number="64" hits="7" branch="false"/>
+            <line number="65" hits="7" branch="false"/>
+            <line number="66" hits="7" branch="false"/>
+            <line number="67" hits="7" branch="false"/>
+            <line number="69" hits="14" branch="false"/>
+            <line number="74" hits="7" branch="false"/>
+            <line number="76" hits="7" branch="false"/>
+          </lines>
+        </class>
+        <class name="isNotGraphqlPrivateType.js" filename="src/introspection/isNotGraphqlPrivateType.js" line-rate="1" branch-rate="1">
+          <methods>
+            <method name="(anonymous_0)" hits="21" signature="()V">
+              <lines>
+                <line number="1" hits="21"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="1" hits="21" branch="false"/>
+          </lines>
+        </class>
+        <class name="listMutationsFromSchema.js" filename="src/introspection/listMutationsFromSchema.js" line-rate="1" branch-rate="1">
+          <methods>
+            <method name="(anonymous_0)" hits="2" signature="()V">
+              <lines>
+                <line number="3" hits="2"/>
+              </lines>
+            </method>
+            <method name="(anonymous_1)" hits="2" signature="()V">
+              <lines>
+                <line number="4" hits="2"/>
+              </lines>
+            </method>
+            <method name="(anonymous_2)" hits="4" signature="()V">
+              <lines>
+                <line number="5" hits="4"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="3" hits="1" branch="false"/>
+            <line number="4" hits="2" branch="false"/>
+            <line number="5" hits="4" branch="false"/>
+          </lines>
+        </class>
+        <class name="listQueriesFromSchema.js" filename="src/introspection/listQueriesFromSchema.js" line-rate="1" branch-rate="1">
+          <methods>
+            <method name="(anonymous_0)" hits="2" signature="()V">
+              <lines>
+                <line number="3" hits="2"/>
+              </lines>
+            </method>
+            <method name="(anonymous_1)" hits="2" signature="()V">
+              <lines>
+                <line number="4" hits="2"/>
+              </lines>
+            </method>
+            <method name="(anonymous_2)" hits="4" signature="()V">
+              <lines>
+                <line number="5" hits="4"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="3" hits="1" branch="false"/>
+            <line number="4" hits="2" branch="false"/>
+            <line number="5" hits="4" branch="false"/>
+          </lines>
+        </class>
+        <class name="listResourcesFromSchema.js" filename="src/introspection/listResourcesFromSchema.js" line-rate="1" branch-rate="1">
+          <methods>
+            <method name="(anonymous_0)" hits="10" signature="()V">
+              <lines>
+                <line number="4" hits="10"/>
+              </lines>
+            </method>
+            <method name="(anonymous_1)" hits="2" signature="()V">
+              <lines>
+                <line number="6" hits="2"/>
+              </lines>
+            </method>
+            <method name="(anonymous_2)" hits="2" signature="()V">
+              <lines>
+                <line number="7" hits="2"/>
+              </lines>
+            </method>
+            <method name="(anonymous_3)" hits="6" signature="()V">
+              <lines>
+                <line number="14" hits="6"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="4" hits="10" branch="false"/>
+            <line number="6" hits="1" branch="false"/>
+            <line number="7" hits="2" branch="false"/>
+            <line number="14" hits="6" branch="false"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="src.introspection.buildQueriesForResource" line-rate="0.7692" branch-rate="0.9">
+      <classes>
+        <class name="buildFieldList.js" filename="src/introspection/buildQueriesForResource/buildFieldList.js" line-rate="1" branch-rate="0.8332999999999999">
+          <methods>
+            <method name="(anonymous_0)" hits="3" signature="()V">
+              <lines>
+                <line number="3" hits="3"/>
+              </lines>
+            </method>
+            <method name="(anonymous_1)" hits="6" signature="()V">
+              <lines>
+                <line number="6" hits="6"/>
+              </lines>
+            </method>
+            <method name="(anonymous_2)" hits="4" signature="()V">
+              <lines>
+                <line number="19" hits="4"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="4" hits="3" branch="false"/>
+            <line number="7" hits="6" branch="false"/>
+            <line number="8" hits="4" branch="false"/>
+            <line number="9" hits="2" branch="false"/>
+            <line number="12" hits="2" branch="false"/>
+            <line number="13" hits="2" branch="false"/>
+            <line number="17" hits="2" branch="false"/>
+            <line number="19" hits="4" branch="false"/>
+          </lines>
+        </class>
+        <class name="buildQuery.js" filename="src/introspection/buildQueriesForResource/buildQuery.js" line-rate="1" branch-rate="1">
+          <methods>
+            <method name="(anonymous_0)" hits="6" signature="()V">
+              <lines>
+                <line number="3" hits="6"/>
+              </lines>
+            </method>
+            <method name="(anonymous_1)" hits="5" signature="()V">
+              <lines>
+                <line number="3" hits="5"/>
+              </lines>
+            </method>
+            <method name="(anonymous_2)" hits="6" signature="()V">
+              <lines>
+                <line number="5" hits="6"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="3" hits="6" branch="false"/>
+            <line number="4" hits="5" branch="false"/>
+            <line number="5" hits="6" branch="false"/>
+            <line number="7" hits="5" branch="false"/>
+            <line number="8" hits="1" branch="false"/>
+            <line number="12" hits="4" branch="false"/>
+            <line number="13" hits="2" branch="false"/>
+            <line number="16" hits="4" branch="false"/>
+          </lines>
+        </class>
+        <class name="index.js" filename="src/introspection/buildQueriesForResource/index.js" line-rate="0.4" branch-rate="1">
+          <methods>
+            <method name="(anonymous_0)" hits="0" signature="()V">
+              <lines>
+                <line number="15" hits="0"/>
+              </lines>
+            </method>
+            <method name="(anonymous_1)" hits="0" signature="()V">
+              <lines>
+                <line number="25" hits="0"/>
+              </lines>
+            </method>
+            <method name="(anonymous_2)" hits="0" signature="()V">
+              <lines>
+                <line number="34" hits="0"/>
+              </lines>
+            </method>
+            <method name="(anonymous_3)" hits="0" signature="()V">
+              <lines>
+                <line number="43" hits="0"/>
+              </lines>
+            </method>
+            <method name="(anonymous_4)" hits="0" signature="()V">
+              <lines>
+                <line number="52" hits="0"/>
+              </lines>
+            </method>
+            <method name="(anonymous_5)" hits="2" signature="()V">
+              <lines>
+                <line number="60" hits="2"/>
+              </lines>
+            </method>
+            <method name="(anonymous_6)" hits="2" signature="()V">
+              <lines>
+                <line number="60" hits="2"/>
+              </lines>
+            </method>
+            <method name="(anonymous_7)" hits="2" signature="()V">
+              <lines>
+                <line number="61" hits="2"/>
+              </lines>
+            </method>
+            <method name="(anonymous_8)" hits="4" signature="()V">
+              <lines>
+                <line number="62" hits="4"/>
+              </lines>
+            </method>
+            <method name="(anonymous_9)" hits="0" signature="()V">
+              <lines>
+                <line number="67" hits="0"/>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="12" hits="1" branch="false"/>
+            <line number="15" hits="0" branch="false"/>
+            <line number="25" hits="0" branch="false"/>
+            <line number="34" hits="0" branch="false"/>
+            <line number="43" hits="0" branch="false"/>
+            <line number="52" hits="0" branch="false"/>
+            <line number="60" hits="2" branch="false"/>
+            <line number="61" hits="2" branch="false"/>
+            <line number="62" hits="4" branch="false"/>
+            <line number="68" hits="0" branch="false"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>
