@@ -1,6 +1,12 @@
 # aor-simple-graphql-client
 
-A simple GraphQL client for [admin-on-rest](https://github.com/marmelab/admin-on-rest/) built with [Apollo](http://www.apollodata.com/)
+A simple GraphQL client for [admin-on-rest](https://github.com/marmelab/admin-on-rest/)
+built with [Apollo](http://www.apollodata.com/)
+
+## About GraphQL and Apollo
+
+This library is meant to be used with Apollo on the **client** side but
+you're free to use any graphql server.
 
 ## Installation
 
@@ -61,7 +67,8 @@ class AdminPage extends Component {
 export default AdminPage;
 ```
 
-And that's it, `buildApolloClient` will create a default ApolloClient for you and run an introspection query on your graphql endpoint.
+And that's it, `buildApolloClient` will create a default ApolloClient for you and
+run an introspection query on your graphql endpoint.
 
 By default, it expect the following queries and mutations for each resource:
 
@@ -176,13 +183,16 @@ And how you pass them to the `buildApolloClient` function:
 buildApolloClient({ introspection: introspectionOptions });
 ```
 
-Note that `excludeXXX` and `includeXXX` are mutualy exclusives and that `includeXXX` will always take precendance.
+Note that `excludeXXX` and `includeXXX` are mutualy exclusives and
+that `includeXXX` will always take precendance.
 
-`excludeFields` deserves more details. If supplying a function, it will receive the following parameters:
+`excludeFields` deserves more details. If supplying a function, it
+will receive the following parameters:
 
-- `field`: the field definition (see http://graphql.org/learn/introspection/ for more details)
-- `resource`: the resource type
-- `type`: the operation type (matching those of **admin-on-rest**)
+- `field`: the field definition (see the documentation on
+    [introspection](http://graphql.org/learn/introspection/) for more details)
+- `resource`: the resource type (for example: `Post`)
+- `type`: the operation type (matching those of **admin-on-rest**, for example: `GET_LIST`)
 
 ### Supply your own queries and mutations
 

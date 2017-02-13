@@ -1,10 +1,10 @@
 import ApolloClient from 'apollo-client';
 
-import getQueriesFromIntrospection from './getQueriesFromIntrospection';
-import getApolloPromise from './getApolloPromise';
 import buildApolloParams from './buildApolloParams';
-import parseApolloResponse from './parseApolloResponse';
+import buildQueriesFromIntrospection from './introspection';
+import getApolloPromise from './getApolloPromise';
 import handleError from './handleError';
+import parseApolloResponse from './parseApolloResponse';
 
 const getClient = (options) => {
     if (options.client) return options.client;
@@ -16,7 +16,7 @@ const getQueries = async (options) => {
     if (options.queries) return options.queries;
 
     const url = options.client.networkInterface._uri; // eslint-disable-line
-    return getQueriesFromIntrospection({
+    return buildQueriesFromIntrospection({
         url,
         ...options.introspection,
     });
