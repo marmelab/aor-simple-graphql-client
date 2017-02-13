@@ -12,24 +12,15 @@ build: clean
 		src
 
 test:
-	NODE_ENV=test ./node_modules/.bin/mocha \
-		--require babel-polyfill \
-		--compilers js:babel-core/register \
-		--colors \
-		--reporter=spec \
-		--timeout=5000 \
-		--recursive \
-		--sort \
-		'src/**/*.spec.js'
+	NODE_ENV=test ./node_modules/.bin/nyc \
+		./node_modules/.bin/mocha \
+		--opts ./mocha.opts \
+		"./src/**/*.spec.js"
+
 
 watch-test:
-	NODE_ENV=test ./node_modules/.bin/mocha \
-		--require babel-polyfill \
-		--compilers js:babel-core/register \
-		--colors \
-		--reporter=spec \
-		--timeout=5000 \
-		--recursive \
-		--sort \
+	NODE_ENV=test ./node_modules/.bin/nyc \
+		./node_modules/.bin/mocha \
+		--opts ./mocha.opts \
 		--watch \
-		'src/**/*.spec.js'
+		"./src/**/*.spec.js"

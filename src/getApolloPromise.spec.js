@@ -75,4 +75,8 @@ describe('getApolloPromise', () => {
 
         expect(client.mutate).toHaveBeenCalledWith(params);
     });
+
+    it('it throws an error for unknown types', () => {
+        expect(() => getApolloPromise(client)('FOO', params)).toThrow();
+    });
 });

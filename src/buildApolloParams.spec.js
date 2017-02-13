@@ -145,4 +145,12 @@ describe('buildApolloParams', () => {
             },
         });
     });
+
+    it('it throws an error for unknown types', () => {
+        const params = {
+            id: 'post1',
+        };
+
+        expect(() => buildApolloParams(queries, 'FOO', resource, params)).toThrow();
+    });
 });
