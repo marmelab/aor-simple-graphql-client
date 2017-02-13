@@ -1,4 +1,4 @@
-import { isNotGraphqlPrivateType } from './lib';
+import { isNotGraphqlPrivateType } from '../lib';
 
 export default (resource, type, { excludeFields }) =>
     resource.fields
