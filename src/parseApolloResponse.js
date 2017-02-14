@@ -36,7 +36,7 @@ export default (response, type, resource, apolloParams) => {
             throw new Error(buildGetListErrorMessage(resource));
         }
         return {
-            items: dataForType.items.map(x => x),
+            data: dataForType.items.map(x => x),
             total: dataForType.totalCount,
         };
     }
