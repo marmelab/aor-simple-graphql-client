@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">80.77% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>21/26</span>
+        <span class='fraction'>26/26</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>5/5</span>
+        <span class='fraction'>7/7</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">54.55% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>6/11</span>
+        <span class='fraction'>11/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">79.17% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>19/24</span>
+        <span class='fraction'>24/24</span>
       </div>
     </div>
   </div>
@@ -128,7 +128,13 @@
 83
 84
 85
-86</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+86
+87
+88
+89</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -165,11 +171,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -227,6 +233,9 @@ import listQueriesFromSchema from './listQueriesFromSchema';
 import {
     GET_LIST,
     GET_ONE,
+    CREATE,
+    DELETE,
+    UPDATE,
 } from '../constants';
 &nbsp;
 const REQUIRED_RESOURCE_KEYS = [
@@ -237,7 +246,7 @@ const REQUIRED_RESOURCE_KEYS = [
 const isValidResource = value =&gt; REQUIRED_RESOURCE_KEYS
     .every(requiredKey =&gt; Object
         .keys(value)
-        .some(resourceKey =&gt; resourceKey === requiredKey),
+        .some(resourceKey =&gt; resourceKey === requiredKey &amp;&amp; !!value[resourceKey]),
     );
 &nbsp;
 export const defaultOptions = {
@@ -250,11 +259,11 @@ export const defaultOptions = {
     excludeMutations: null,
     excludeFields: null,
     templates: {
-        GET_LIST: <span class="fstat-no" title="function not covered" >re</span>sourceType =&gt; <span class="cstat-no" title="statement not covered" >`getPageOf${pluralize(resourceType.name)}`,</span>
-        GET_ONE: <span class="fstat-no" title="function not covered" >re</span>sourceType =&gt; <span class="cstat-no" title="statement not covered" >`get${resourceType.name}`,</span>
-        CREATE: <span class="fstat-no" title="function not covered" >re</span>sourceType =&gt; <span class="cstat-no" title="statement not covered" >`create${resourceType.name}`,</span>
-        UPDATE: <span class="fstat-no" title="function not covered" >re</span>sourceType =&gt; <span class="cstat-no" title="statement not covered" >`update${resourceType.name}`,</span>
-        DELETE: <span class="fstat-no" title="function not covered" >re</span>sourceType =&gt; <span class="cstat-no" title="statement not covered" >`remove${resourceType.name}`,</span>
+        [GET_LIST]: resourceType =&gt; `getPageOf${pluralize(resourceType.name)}`,
+        [GET_ONE]: resourceType =&gt; `get${resourceType.name}`,
+        [CREATE]: resourceType =&gt; `create${resourceType.name}`,
+        [UPDATE]: resourceType =&gt; `update${resourceType.name}`,
+        [DELETE]: resourceType =&gt; `remove${resourceType.name}`,
     },
 };
 &nbsp;
@@ -283,7 +292,7 @@ export const buildQueriesForResourceFactory = (
 &nbsp;
         const resources = resourceTypes.reduce((queriesByResource, resourceType) =&gt; ({
             ...queriesByResource,
-            [resourceType.name]: buildQueriesForResourceImpl(resourceType, { ...queries, ...mutations }, options),
+            [resourceType.name]: buildQueriesForResourceImpl(resourceType, [...queries, ...mutations], options),
         }), {});
 &nbsp;
         const result = pickBy(resources, isValidResource);
@@ -304,7 +313,7 @@ export default buildQueriesForResourceFactory(
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Feb 14 2017 09:31:33 GMT+0100 (CET)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Feb 14 2017 13:42:01 GMT+0100 (CET)
 </div>
 </div>
 <script src="../../prettify.js"></script>

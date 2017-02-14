@@ -32,7 +32,7 @@ describe('parseApolloResponse', () => {
         const result = parseApolloResponse(response, GET_LIST, 'Post', apolloParams);
 
         expect(result).toEqual({
-            items,
+            data: items,
             total,
         });
     });

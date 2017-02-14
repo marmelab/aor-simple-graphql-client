@@ -9,7 +9,7 @@ import {
 
 import buildQuery from './buildQuery';
 
-const defaultTypes = {
+export const defaultTypes = {
     [GET_LIST]: {
         name: GET_LIST,
         returnsFields: true,

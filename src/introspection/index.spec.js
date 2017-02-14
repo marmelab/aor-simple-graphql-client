@@ -6,6 +6,9 @@ import { buildQueriesForResourceFactory, defaultOptions } from './';
 import {
     GET_LIST,
     GET_ONE,
+    CREATE,
+    DELETE,
+    UPDATE,
 } from '../constants';
 
 describe('buildQueriesForResource', () => {
@@ -114,6 +117,24 @@ describe('buildQueriesForResource', () => {
                 [GET_LIST]: true,
                 [GET_ONE]: true,
             },
+        });
+    });
+
+    describe('default templates', () => {
+        it('GET_LIST is ok', () => {
+            expect(defaultOptions.templates[GET_LIST]({ name: 'Post' })).toEqual('getPageOfPosts');
+        });
+        it('GET_ONE is ok', () => {
+            expect(defaultOptions.templates[GET_ONE]({ name: 'Post' })).toEqual('getPost');
+        });
+        it('CREATE is ok', () => {
+            expect(defaultOptions.templates[CREATE]({ name: 'Post' })).toEqual('createPost');
+        });
+        it('UPDATE is ok', () => {
+            expect(defaultOptions.templates[UPDATE]({ name: 'Post' })).toEqual('updatePost');
+        });
+        it('DELETE is ok', () => {
+            expect(defaultOptions.templates[DELETE]({ name: 'Post' })).toEqual('removePost');
         });
     });
 });
