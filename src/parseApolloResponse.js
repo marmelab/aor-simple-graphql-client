@@ -1,5 +1,7 @@
 import {
     GET_LIST,
+    GET_MANY,
+    GET_MANY_REFERENCE,
     QUERY_TYPES,
 } from './constants';
 
@@ -39,6 +41,14 @@ export default (response, type, resource, apolloParams) => {
             data: dataForType.items.map(x => x),
             total: dataForType.totalCount,
         };
+    }
+
+    case GET_MANY:
+    case GET_MANY_REFERENCE: {
+        if (typeof dataForType.totalCount !== 'number') {
+            throw new Error(buildGetListErrorMessage(resource));
+        }
+        return dataForType.items.map(x => x);
     }
 
     default:

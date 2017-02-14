@@ -75,12 +75,14 @@ describe('parseApolloResponse', () => {
     });
 
     it('returns the reponse data for GET_MANY', () => {
+        const items = [{ id: 1 }];
+        const total = 42;
         const response = {
             data: {
-                operationName: [
-                    { id: 'post1' },
-                    { id: 'post2' },
-                ],
+                operationName: {
+                    items,
+                    totalCount: total,
+                },
             },
         };
         const apolloParams = {
@@ -91,19 +93,18 @@ describe('parseApolloResponse', () => {
 
         const result = parseApolloResponse(response, GET_MANY, 'Post', apolloParams);
 
-        expect(result).toEqual([
-            { id: 'post1' },
-            { id: 'post2' },
-        ]);
+        expect(result).toEqual(items);
     });
 
     it('returns the reponse data for GET_MANY_REFERENCE', () => {
+        const items = [{ id: 1 }];
+        const total = 42;
         const response = {
             data: {
-                operationName: [
-                    { id: 'post1' },
-                    { id: 'post2' },
-                ],
+                operationName: {
+                    items,
+                    totalCount: total,
+                },
             },
         };
         const apolloParams = {
@@ -114,10 +115,7 @@ describe('parseApolloResponse', () => {
 
         const result = parseApolloResponse(response, GET_MANY_REFERENCE, 'Post', apolloParams);
 
-        expect(result).toEqual([
-            { id: 'post1' },
-            { id: 'post2' },
-        ]);
+        expect(result).toEqual(items);
     });
 
     it('returns the reponse data for CREATE', () => {
