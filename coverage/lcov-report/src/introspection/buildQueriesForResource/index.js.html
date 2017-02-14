@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">91.67% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/12</span>
+        <span class='fraction'>11/12</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -30,18 +30,18 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">40% </span>
+        <span class="strong">90% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>4/10</span>
+        <span class='fraction'>9/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">40% </span>
+        <span class="strong">90% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>4/10</span>
+        <span class='fraction'>9/10</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -111,7 +111,12 @@
 66
 67
 68
-69</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+69
+70
+71
+72
+73
+74</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -125,7 +130,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -135,7 +141,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -144,7 +151,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -153,7 +161,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -162,7 +171,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -190,10 +200,11 @@ import {
 &nbsp;
 import buildQuery from './buildQuery';
 &nbsp;
-const defaultTypes = {
+export const defaultTypes = {
     [GET_LIST]: {
+        name: GET_LIST,
         returnsFields: true,
-        query: <span class="fstat-no" title="function not covered" >(o</span>perationName, fields) =&gt; <span class="cstat-no" title="statement not covered" >gql`</span>
+        query: (operationName, fields) =&gt; gql`
         query ${operationName}($page: Int, $perPage: Int, $sortField: String, $sortOrder: String, $filter: String) {
             ${operationName}(page: $page, perPage: $perPage, sortField: $sortField, sortOrder: $sortOrder, filter: $filter) {
                 items { ${fields} }
@@ -202,8 +213,9 @@ const defaultTypes = {
         }`,
     },
     [GET_ONE]: {
+        name: GET_ONE,
         returnsFields: true,
-        query: <span class="fstat-no" title="function not covered" >(o</span>perationName, fields) =&gt; <span class="cstat-no" title="statement not covered" >gql`</span>
+        query: (operationName, fields) =&gt; gql`
         query ${operationName}($id: ID!) {
             ${operationName}(id: $id) {
                 ${fields}
@@ -211,8 +223,9 @@ const defaultTypes = {
         }`,
     },
     [CREATE]: {
+        name: CREATE,
         returnsFields: true,
-        query: <span class="fstat-no" title="function not covered" >(o</span>perationName, fields) =&gt; <span class="cstat-no" title="statement not covered" >gql`</span>
+        query: (operationName, fields) =&gt; gql`
         mutation ${operationName}($data: String!) {
             ${operationName}(data: $data) {
                 ${fields}
@@ -220,8 +233,9 @@ const defaultTypes = {
         }`,
     },
     [UPDATE]: {
+        name: UPDATE,
         returnsFields: true,
-        query: <span class="fstat-no" title="function not covered" >(o</span>perationName, fields) =&gt; <span class="cstat-no" title="statement not covered" >gql`</span>
+        query: (operationName, fields) =&gt; gql`
         mutation ${operationName}($data: String!) {
             ${operationName}(data: $data) {
                 ${fields}
@@ -229,8 +243,9 @@ const defaultTypes = {
         }`,
     },
     [DELETE]: {
+        name: DELETE,
         returnsFields: false,
-        query: <span class="fstat-no" title="function not covered" >op</span>erationName =&gt; <span class="cstat-no" title="statement not covered" >gql`</span>
+        query: operationName =&gt; gql`
         mutation ${operationName}($id: ID!) {
             ${operationName}(id: $id)
         }`,
@@ -246,14 +261,14 @@ export const buildQueriesForResourceFactory = buildQueryImpl =&gt; types =&gt;
         }), {});
 &nbsp;
 export default <span class="fstat-no" title="function not covered" >(r</span>esource, queriesAndMutations, options) =&gt;
-<span class="cstat-no" title="statement not covered" >    buildQueriesForResourceFactory(defaultTypes, buildQuery)(resource, queriesAndMutations, options);</span>
+<span class="cstat-no" title="statement not covered" >    buildQueriesForResourceFactory(buildQuery)(defaultTypes)(resource, queriesAndMutations, options);</span>
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Feb 14 2017 09:31:33 GMT+0100 (CET)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Feb 14 2017 13:42:01 GMT+0100 (CET)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

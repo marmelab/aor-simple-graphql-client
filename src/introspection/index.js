@@ -12,6 +12,9 @@ import listQueriesFromSchema from './listQueriesFromSchema';
 import {
     GET_LIST,
     GET_ONE,
+    CREATE,
+    DELETE,
+    UPDATE,
 } from '../constants';
 
 const REQUIRED_RESOURCE_KEYS = [
@@ -35,11 +38,11 @@ export const defaultOptions = {
     excludeMutations: null,
     excludeFields: null,
     templates: {
-        GET_LIST: resourceType => `getPageOf${pluralize(resourceType.name)}`,
-        GET_ONE: resourceType => `get${resourceType.name}`,
-        CREATE: resourceType => `create${resourceType.name}`,
-        UPDATE: resourceType => `update${resourceType.name}`,
-        DELETE: resourceType => `remove${resourceType.name}`,
+        [GET_LIST]: resourceType => `getPageOf${pluralize(resourceType.name)}`,
+        [GET_ONE]: resourceType => `get${resourceType.name}`,
+        [CREATE]: resourceType => `create${resourceType.name}`,
+        [UPDATE]: resourceType => `update${resourceType.name}`,
+        [DELETE]: resourceType => `remove${resourceType.name}`,
     },
 };
 
