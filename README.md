@@ -80,12 +80,13 @@ Example with resource `Post`:
 
 ```graphql
 getPageOfPosts(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: String) {
-    items: [ResourceObject]
+    items: [Post]
     totalCount: Int
 }
 ```
 
 Note that the function should be named with the plural version of `Post`.
+We use [pluralize](https://github.com/blakeembrey/pluralize) to generate it.
 
 `filter` may contain a serialized JSON object, for example:
 
@@ -98,7 +99,7 @@ Note that the function should be named with the plural version of `Post`.
 Example with resource `Post`:
 
 ```graphql
-getPost(id: ID!) [ResourceObject]
+getPost(id: ID!) Post
 ```
 
 ### Create a new resource
@@ -106,7 +107,7 @@ getPost(id: ID!) [ResourceObject]
 Example with resource `Post`:
 
 ```graphql
-createPost(data: String) ResourceObject
+createPost(data: String) Post
 ```
 
 `data` is a serialized JSON object, for example:
@@ -120,7 +121,7 @@ createPost(data: String) ResourceObject
 Example with resource `Post`:
 
 ```graphql
-updatePost(data: String) ResourceObject
+updatePost(data: String) Post
 ```
 
 `data` is a serialized JSON object, for example:
