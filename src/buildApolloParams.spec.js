@@ -26,9 +26,9 @@ describe('buildApolloParams', () => {
 
     it('it returns params for GET_LIST', () => {
         const params = {
+            filter: 'a filter',
             pagination: { page: 43, perPage: 100 },
             sort: { field: 'name', order: 'DESC' },
-            filter: 'a filter',
         };
 
         const apolloParams = buildApolloParams(queries, GET_LIST, resource, params);
@@ -36,11 +36,11 @@ describe('buildApolloParams', () => {
         expect(apolloParams).toEqual({
             query: queries[resource].GET_LIST,
             variables: {
+                filter: JSON.stringify('a filter'),
                 page: 42,
                 perPage: 100,
                 sortField: 'name',
                 sortOrder: 'DESC',
-                filter: JSON.stringify('a filter'),
             },
         });
     });
@@ -56,6 +56,7 @@ describe('buildApolloParams', () => {
             query: queries[resource].GET_LIST,
             variables: {
                 filter: JSON.stringify({ ids: params.ids }),
+                perPage: 1000,
             },
         });
     });
@@ -72,6 +73,7 @@ describe('buildApolloParams', () => {
             query: queries[resource].GET_LIST,
             variables: {
                 filter: JSON.stringify({ Post: 'post1' }),
+                perPage: 1000,
             },
         });
     });

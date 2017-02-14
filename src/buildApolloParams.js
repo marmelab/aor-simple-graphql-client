@@ -20,11 +20,11 @@ export default (queries, type, resource, params) => {
         return {
             query: queries[resource].GET_LIST,
             variables: {
+                filter: JSON.stringify(params.filter),
                 page: params.pagination.page - 1,
                 perPage: params.pagination.perPage,
                 sortField: params.sort.field,
                 sortOrder: params.sort.order,
-                filter: JSON.stringify(params.filter),
             },
         };
     }
@@ -42,6 +42,7 @@ export default (queries, type, resource, params) => {
             query: queries[resource].GET_LIST,
             variables: {
                 filter: JSON.stringify({ ids: params.ids }),
+                perPage: 1000,
             },
         };
 
@@ -50,6 +51,7 @@ export default (queries, type, resource, params) => {
             query: queries[resource].GET_LIST,
             variables: {
                 filter: JSON.stringify({ [params.target]: params.id }),
+                perPage: 1000,
             },
         };
 
