@@ -219,3 +219,9 @@ const queries = {
 - Tests
 - More doc concerning the GraphQL endpoint side
 - Sample application
+
+## Contributing
+
+Coverage data is available in `./coverage` after executing `make test`.
+
+An HTML report is generated in `./coverage/lcov-report/index.html`.
