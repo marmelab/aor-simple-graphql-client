@@ -34,7 +34,7 @@ describe('buildApolloParams', () => {
         const apolloParams = buildApolloParams(queries, GET_LIST, resource, params);
 
         expect(apolloParams).toEqual({
-            query: queries[resource].GET_LIST,
+            query: queries[resource][GET_LIST],
             variables: {
                 filter: JSON.stringify('a filter'),
                 page: 42,
@@ -45,7 +45,31 @@ describe('buildApolloParams', () => {
         });
     });
 
-    it('it returns params for GET_MANY', () => {
+    it('it returns params for GET_MANY using query defined by GET_MANY', () => {
+        const params = {
+            ids: ['comment1', 'comment2'],
+        };
+
+        const apolloParams = buildApolloParams({
+            Post: {
+                ...queries.Post,
+                [GET_MANY]: 'GET_MANY post',
+            },
+        }, GET_MANY, resource, params);
+
+        expect(apolloParams).toEqual({
+            query: 'GET_MANY post',
+            variables: {
+                filter: JSON.stringify({ ids: params.ids }),
+                page: undefined,
+                perPage: undefined,
+                sortField: undefined,
+                sortOrder: undefined,
+            },
+        });
+    });
+
+    it('it returns params for GET_MANY using query defined by GET_LIST if GET_MANY query is not defined', () => {
         const params = {
             ids: ['comment1', 'comment2'],
         };
@@ -53,7 +77,7 @@ describe('buildApolloParams', () => {
         const apolloParams = buildApolloParams(queries, GET_MANY, resource, params);
 
         expect(apolloParams).toEqual({
-            query: queries[resource].GET_LIST,
+            query: queries[resource][GET_LIST],
             variables: {
                 filter: JSON.stringify({ ids: params.ids }),
                 perPage: 1000,
@@ -70,7 +94,7 @@ describe('buildApolloParams', () => {
         const apolloParams = buildApolloParams(queries, GET_MANY_REFERENCE, resource, params);
 
         expect(apolloParams).toEqual({
-            query: queries[resource].GET_LIST,
+            query: queries[resource][GET_LIST],
             variables: {
                 filter: JSON.stringify({ Post: 'post1' }),
                 perPage: 1000,
@@ -86,7 +110,7 @@ describe('buildApolloParams', () => {
         const apolloParams = buildApolloParams(queries, GET_ONE, resource, params);
 
         expect(apolloParams).toEqual({
-            query: queries[resource].GET_ONE,
+            query: queries[resource][GET_ONE],
             variables: {
                 id: 'post1',
             },
@@ -103,7 +127,7 @@ describe('buildApolloParams', () => {
         const apolloParams = buildApolloParams(queries, CREATE, resource, params);
 
         expect(apolloParams).toEqual({
-            mutation: queries[resource].CREATE,
+            mutation: queries[resource][CREATE],
             variables: {
                 data: JSON.stringify({
                     title: 'Hello world',
@@ -123,7 +147,7 @@ describe('buildApolloParams', () => {
         const apolloParams = buildApolloParams(queries, UPDATE, resource, params);
 
         expect(apolloParams).toEqual({
-            mutation: queries[resource].UPDATE,
+            mutation: queries[resource][UPDATE],
             variables: {
                 data: JSON.stringify({
                     id: 'post1',
@@ -141,7 +165,7 @@ describe('buildApolloParams', () => {
         const apolloParams = buildApolloParams(queries, DELETE, resource, params);
 
         expect(apolloParams).toEqual({
-            mutation: queries[resource].DELETE,
+            mutation: queries[resource][DELETE],
             variables: {
                 id: 'post1',
             },
