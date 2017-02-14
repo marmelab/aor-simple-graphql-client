@@ -61,10 +61,6 @@ describe('buildApolloParams', () => {
             query: 'GET_MANY post',
             variables: {
                 filter: JSON.stringify({ ids: params.ids }),
-                page: undefined,
-                perPage: undefined,
-                sortField: undefined,
-                sortOrder: undefined,
             },
         });
     });
@@ -85,7 +81,28 @@ describe('buildApolloParams', () => {
         });
     });
 
-    it('it returns params for GET_MANY_REFERENCE', () => {
+    it('it returns params for GET_MANY_REFERENCE using query defined by GET_MANY_REFERENCE', () => {
+        const params = {
+            target: 'Post',
+            id: 'post1',
+        };
+
+        const apolloParams = buildApolloParams({
+            Post: {
+                ...queries.Post,
+                [GET_MANY_REFERENCE]: 'GET_MANY_REFERENCE post',
+            },
+        }, GET_MANY_REFERENCE, resource, params);
+
+        expect(apolloParams).toEqual({
+            query: 'GET_MANY_REFERENCE post',
+            variables: {
+                filter: JSON.stringify({ Post: 'post1' }),
+            },
+        });
+    });
+
+    it('it returns params for GET_MANY_REFERENCE using query defined by GET_LIST if GET_MANY_REFERENCE query is not defined', () => {
         const params = {
             target: 'Post',
             id: 'post1',

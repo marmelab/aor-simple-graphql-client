@@ -205,8 +205,8 @@ You need more control? Then provide your queries with the following format:
 const queries = {
     Post: {
         GET_LIST: () => gql`your query`, // Variables will be: { page: Int, perPage: Int, sortFilter: String, sortOrder: String, filter: String }
-        GET_MANY: () => gql`your query`, // Optional, see note below. Variables will be: { page: Int, perPage: Int, sortFilter: String, sortOrder: String, filter: String }
-        GET_MANY_REFERENCE: () => gql`your query`, // Optional, see note below. Variables will be: { page: Int, perPage: Int, sortFilter: String, sortOrder: String, filter: String }
+        GET_MANY: () => gql`your query`, // Optional, see note below. Variables will be: { filter: String }
+        GET_MANY_REFERENCE: () => gql`your query`, // Optional, see note below. Variables will be: { filter: String }
         GET_ONE: () => gql`your query`, // Variables will be: { id: ID }
         CREATE: () => gql`your query`, // Variables will be: { data: String }
         UPDATE: () => gql`your query`, // Variables will be: { data: String }
@@ -216,15 +216,14 @@ const queries = {
 ```
 
 **Note**: `GET_MANY` and `GET_MANY_REFERENCE` are optional.
-If specified they will be called with the same parameters as `GET_LIST`.
-If not specified, `GET_LIST` will be called with `perPage` set to `1000`.
+If not specified, `GET_LIST` will be called with the `filter` and `perPage` set to `1000`.
 
 ## TODO
 
-- Makefile
-- Tests
-- More doc concerning the GraphQL endpoint side
 - Sample application
+
+- Add a saga which listen router actions to initialize apollo requests (and activate polling, etc.)
+    and dispatch CRUD_XX_SUCCESS actions. This would allow real time update.
 
 ## Contributing
 

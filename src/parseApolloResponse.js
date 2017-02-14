@@ -45,10 +45,11 @@ export default (response, type, resource, apolloParams) => {
 
     case GET_MANY:
     case GET_MANY_REFERENCE: {
-        if (typeof dataForType.totalCount !== 'number') {
-            throw new Error(buildGetListErrorMessage(resource));
+        if (dataForType.totalCount) {
+            return dataForType.items.map(x => x);
         }
-        return dataForType.items.map(x => x);
+
+        return dataForType;
     }
 
     default:
