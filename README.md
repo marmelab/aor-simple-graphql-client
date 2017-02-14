@@ -1,7 +1,6 @@
 # aor-simple-graphql-client
 
 [![Build Status](https://travis-ci.org/marmelab/aor-simple-graphql-client.svg?branch=master)](https://travis-ci.org/marmelab/aor-simple-graphql-client)
-![Test coverage](./coverage/coverage.svg)
 
 A simple GraphQL client for [admin-on-rest](https://github.com/marmelab/admin-on-rest/)
 built with [Apollo](http://www.apollodata.com/)
