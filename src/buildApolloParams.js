@@ -40,16 +40,12 @@ export default (queries, type, resource, params) => {
     case GET_MANY: {
         let variables = {
             filter: JSON.stringify({ ids: params.ids }),
-            perPage: 1000,
         };
 
-        if (queries[resource][GET_MANY]) {
+        if (!queries[resource][GET_MANY]) {
             variables = {
-                filter: JSON.stringify({ ids: params.ids }),
-                page: params.pagination ? params.pagination.page - 1 : undefined,
-                perPage: params.pagination ? params.pagination.perPage : undefined,
-                sortField: params.sort ? params.sort.field : undefined,
-                sortOrder: params.sort ? params.sort.order : undefined,
+                ...variables,
+                perPage: 1000,
             };
         }
 
@@ -62,16 +58,12 @@ export default (queries, type, resource, params) => {
     case GET_MANY_REFERENCE: {
         let variables = {
             filter: JSON.stringify({ [params.target]: params.id }),
-            perPage: 1000,
         };
 
-        if (queries[resource][GET_MANY_REFERENCE]) {
+        if (!queries[resource][GET_MANY_REFERENCE]) {
             variables = {
-                filter: JSON.stringify({ [params.target]: params.id }),
-                page: params.pagination ? params.pagination.page - 1 : undefined,
-                perPage: params.pagination ? params.pagination.perPage : undefined,
-                sortField: params.sort ? params.sort.field : undefined,
-                sortOrder: params.sort ? params.sort.order : undefined,
+                ...variables,
+                perPage: 1000,
             };
         }
 
