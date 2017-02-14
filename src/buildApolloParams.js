@@ -18,7 +18,7 @@ export default (queries, type, resource, params) => {
     switch (type) {
     case GET_LIST: {
         return {
-            query: queries[resource].GET_LIST,
+            query: queries[resource][GET_LIST],
             variables: {
                 filter: JSON.stringify(params.filter),
                 page: params.pagination.page - 1,
@@ -31,45 +31,71 @@ export default (queries, type, resource, params) => {
 
     case GET_ONE:
         return {
-            query: queries[resource].GET_ONE,
+            query: queries[resource][GET_ONE],
             variables: {
                 id: params.id,
             },
         };
 
-    case GET_MANY:
-        return {
-            query: queries[resource].GET_LIST,
-            variables: {
-                filter: JSON.stringify({ ids: params.ids }),
-                perPage: 1000,
-            },
+    case GET_MANY: {
+        let variables = {
+            filter: JSON.stringify({ ids: params.ids }),
+            perPage: 1000,
         };
 
-    case GET_MANY_REFERENCE:
+        if (queries[resource][GET_MANY]) {
+            variables = {
+                filter: JSON.stringify({ ids: params.ids }),
+                page: params.pagination ? params.pagination.page - 1 : undefined,
+                perPage: params.pagination ? params.pagination.perPage : undefined,
+                sortField: params.sort ? params.sort.field : undefined,
+                sortOrder: params.sort ? params.sort.order : undefined,
+            };
+        }
+
         return {
-            query: queries[resource].GET_LIST,
-            variables: {
-                filter: JSON.stringify({ [params.target]: params.id }),
-                perPage: 1000,
-            },
+            query: queries[resource][GET_MANY] || queries[resource][GET_LIST],
+            variables,
         };
+    }
+
+    case GET_MANY_REFERENCE: {
+        let variables = {
+            filter: JSON.stringify({ [params.target]: params.id }),
+            perPage: 1000,
+        };
+
+        if (queries[resource][GET_MANY_REFERENCE]) {
+            variables = {
+                filter: JSON.stringify({ [params.target]: params.id }),
+                page: params.pagination ? params.pagination.page - 1 : undefined,
+                perPage: params.pagination ? params.pagination.perPage : undefined,
+                sortField: params.sort ? params.sort.field : undefined,
+                sortOrder: params.sort ? params.sort.order : undefined,
+            };
+        }
+
+        return {
+            query: queries[resource][GET_MANY_REFERENCE] || queries[resource][GET_LIST],
+            variables,
+        };
+    }
 
     case UPDATE:
         return {
-            mutation: queries[resource].UPDATE,
+            mutation: queries[resource][UPDATE],
             variables: { data: JSON.stringify(params.data) },
         };
 
     case CREATE:
         return {
-            mutation: queries[resource].CREATE,
+            mutation: queries[resource][CREATE],
             variables: { data: JSON.stringify(params.data) },
         };
 
     case DELETE:
         return {
-            mutation: queries[resource].DELETE,
+            mutation: queries[resource][DELETE],
             variables: {
                 id: params.id,
             },
