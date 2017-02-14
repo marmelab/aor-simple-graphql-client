@@ -47,6 +47,7 @@ export default async (options) => {
         const apolloParams = buildApolloParams(queries, type, resource, params);
 
         const promise = getApolloPromise(client)(type, apolloParams).catch(handleError);
-        return promise.then(response => parseApolloResponse(response, type, resource, apolloParams));
+        return promise
+            .then(response => parseApolloResponse(response, type, resource, apolloParams));
     };
 };

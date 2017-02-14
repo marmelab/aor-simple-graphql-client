@@ -11,6 +11,7 @@ import buildQuery from './buildQuery';
 
 const defaultTypes = {
     [GET_LIST]: {
+        name: GET_LIST,
         returnsFields: true,
         query: (operationName, fields) => gql`
         query ${operationName}($page: Int, $perPage: Int, $sortField: String, $sortOrder: String, $filter: String) {
@@ -21,6 +22,7 @@ const defaultTypes = {
         }`,
     },
     [GET_ONE]: {
+        name: GET_ONE,
         returnsFields: true,
         query: (operationName, fields) => gql`
         query ${operationName}($id: ID!) {
@@ -30,6 +32,7 @@ const defaultTypes = {
         }`,
     },
     [CREATE]: {
+        name: CREATE,
         returnsFields: true,
         query: (operationName, fields) => gql`
         mutation ${operationName}($data: String!) {
@@ -39,6 +42,7 @@ const defaultTypes = {
         }`,
     },
     [UPDATE]: {
+        name: UPDATE,
         returnsFields: true,
         query: (operationName, fields) => gql`
         mutation ${operationName}($data: String!) {
@@ -48,6 +52,7 @@ const defaultTypes = {
         }`,
     },
     [DELETE]: {
+        name: DELETE,
         returnsFields: false,
         query: operationName => gql`
         mutation ${operationName}($id: ID!) {
@@ -65,4 +70,4 @@ export const buildQueriesForResourceFactory = buildQueryImpl => types =>
         }), {});
 
 export default (resource, queriesAndMutations, options) =>
-    buildQueriesForResourceFactory(defaultTypes, buildQuery)(resource, queriesAndMutations, options);
+    buildQueriesForResourceFactory(buildQuery)(defaultTypes)(resource, queriesAndMutations, options);

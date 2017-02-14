@@ -22,7 +22,7 @@ const REQUIRED_RESOURCE_KEYS = [
 const isValidResource = value => REQUIRED_RESOURCE_KEYS
     .every(requiredKey => Object
         .keys(value)
-        .some(resourceKey => resourceKey === requiredKey),
+        .some(resourceKey => resourceKey === requiredKey && !!value[resourceKey]),
     );
 
 export const defaultOptions = {
@@ -68,7 +68,7 @@ export const buildQueriesForResourceFactory = (
 
         const resources = resourceTypes.reduce((queriesByResource, resourceType) => ({
             ...queriesByResource,
-            [resourceType.name]: buildQueriesForResourceImpl(resourceType, { ...queries, ...mutations }, options),
+            [resourceType.name]: buildQueriesForResourceImpl(resourceType, [...queries, ...mutations], options),
         }), {});
 
         const result = pickBy(resources, isValidResource);

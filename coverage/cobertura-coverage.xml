@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
-<coverage lines-valid="116" lines-covered="105" line-rate="0.9052" branches-valid="58" branches-covered="56" branch-rate="0.9655" timestamp="1487022703993" complexity="0" version="0.1">
+<coverage lines-valid="116" lines-covered="105" line-rate="0.9052" branches-valid="58" branches-covered="56" branch-rate="0.9655" timestamp="1487061093609" complexity="0" version="0.1">
   <sources>
     <source>/home/gildas/projects/perso/aor-simple-graphql-client</source>
   </sources>
