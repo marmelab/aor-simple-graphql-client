@@ -5,13 +5,13 @@ import omit from 'lodash.omit';
 
 import buildAorAction from './buildAorAction';
 import createApolloQueryChannel from './createApolloQueryChannel';
-import getWatchParametersForQuery from './getWatchParametersForQuery';
+import getWatchOptionsForQuery from './getWatchOptionsForQuery';
 
-export const watchCrudActionsFactory = (apolloConfiguredClient, apolloWatchParameters) =>
+export const watchCrudActionsFactory = (apolloConfiguredClient, apolloWatchOptions) =>
     function* watchCrudActions(action) {
-        const watchParameters = yield call(getWatchParametersForQuery, apolloWatchParameters, action);
+        const watchOptions = yield call(getWatchOptionsForQuery, apolloWatchOptions, action);
         const { payload: params, meta: { fetch: fetchType, resource } } = action;
-        const watcher = yield call(apolloConfiguredClient.watchRequest, fetchType, resource, params, watchParameters);
+        const watcher = yield call(apolloConfiguredClient.watchRequest, fetchType, resource, params, watchOptions);
         const apolloQueryChannel = yield call(createApolloQueryChannel, watcher);
 
         while (true) {
@@ -35,7 +35,7 @@ export const watchLocationChangeFactory = watchCrudActions => function* watchLoc
     yield takeLatest([CRUD_GET_LIST, CRUD_GET_ONE], watchCrudActions);
 };
 
-export default (apolloConfiguredClient, apolloWatchParameters) => function* aorGraphQlSaga() {
-    const watchCrudActions = watchCrudActionsFactory(apolloConfiguredClient, apolloWatchParameters);
+export default (apolloConfiguredClient, apolloWatchOptions) => function* aorGraphQlSaga() {
+    const watchCrudActions = watchCrudActionsFactory(apolloConfiguredClient, apolloWatchOptions);
     yield takeLatest(LOCATION_CHANGE, watchLocationChangeFactory(watchCrudActions));
 };
