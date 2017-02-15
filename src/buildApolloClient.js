@@ -45,8 +45,8 @@ export default async (options) => {
     const aorClient = (type, resource, params) =>
         apolloConfiguredClient.handleRequest(type, resource, params);
 
-    aorClient.saga = apolloWatchParameters =>
-        buildApolloSaga(apolloConfiguredClient, apolloWatchParameters);
+    aorClient.saga = apolloWatchOptions =>
+        buildApolloSaga(apolloConfiguredClient, apolloWatchOptions);
 
     return aorClient;
 };
