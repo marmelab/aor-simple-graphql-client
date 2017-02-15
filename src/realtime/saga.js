@@ -14,7 +14,7 @@ export const watchCrudActionsFactory = (apolloConfiguredClient, apolloWatchOptio
         const watcher = yield call(apolloConfiguredClient.watchRequest, fetchType, resource, params, watchOptions);
         const apolloQueryChannel = yield call(createApolloQueryChannel, watcher);
 
-        while (true) {
+        while (true) { // eslint-disable-line
             const parsedApolloQueryResult = yield take(apolloQueryChannel);
             const { type, payload, meta } = action;
 

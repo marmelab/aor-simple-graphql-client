@@ -14,36 +14,54 @@ describe('getWatchOptionsForQuery', () => {
 
     it('returns the options merged with default options when simple options were specified', () => {
         const userOptions = {
-            anOption: true,
+            pollInterval: 10000,
+            noFetch: true,
         };
         const options = getWatchOptionsForQuery(userOptions, action);
 
         expect(options).toEqual(merge({}, defaultWatchOptions, userOptions));
     });
 
-    it('returns the options merged with default options when options for resource were specified', () => {
+    it('returns the options merged with default options and root options when options for resource were specified', () => {
+        const rootOptions = {
+            pollInterval: 1000,
+            noFetch: true,
+        };
+
         const postOptions = {
-            anOptionForPost: true,
+            pollInterval: 10000,
         };
         const userOptions = {
+            ...rootOptions,
             Post: postOptions,
         };
         const options = getWatchOptionsForQuery(userOptions, action);
 
-        expect(options).toEqual(merge({}, defaultWatchOptions, postOptions));
+        expect(options).toEqual(merge({}, defaultWatchOptions, rootOptions, postOptions));
     });
 
-    it('returns the options merged with default options when options for resource and verb were specified', () => {
+    it('returns the options merged with default options, root options and resource options when options for resource and verb were specified', () => {
+        const rootOptions = {
+            pollInterval: 100,
+            noFetch: true,
+        };
+
+        const postOptions = {
+            pollInterval: 1000,
+        };
+
         const verbOptions = {
-            anOptionForPost: true,
+            pollInterval: 10000,
         };
         const userOptions = {
+            ...rootOptions,
             Post: {
+                ...postOptions,
                 GET_LIST: verbOptions,
             },
         };
         const options = getWatchOptionsForQuery(userOptions, action);
 
-        expect(options).toEqual(merge({}, defaultWatchOptions, verbOptions));
+        expect(options).toEqual(merge({}, defaultWatchOptions, rootOptions, postOptions, verbOptions));
     });
 });
