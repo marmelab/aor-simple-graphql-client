@@ -1,10 +1,8 @@
 import ApolloClient from 'apollo-client';
 
-import buildApolloParams from './buildApolloParams';
+import buildApolloConfiguredClient from './buildApolloConfiguredClient';
+import buildApolloSaga from './realtime';
 import buildQueriesFromIntrospection from './introspection';
-import getApolloPromise from './getApolloPromise';
-import handleError from './handleError';
-import parseApolloResponse from './parseApolloResponse';
 
 const getClient = (options) => {
     if (options.client) return options.client;
@@ -37,17 +35,18 @@ export default async (options) => {
 
     const queries = await getQueries(finalOptions);
 
+    const apolloConfiguredClient = buildApolloConfiguredClient(client, queries);
     /**
      * @param {string} type Request type, e.g GET_LIST
      * @param {string} resource Resource name, e.g. "posts"
      * @param {Object} payload Request parameters. Depends on the request type
      * @returns {Promise} the Promise for a REST response
      */
-    return (type, resource, params) => {
-        const apolloParams = buildApolloParams(queries, type, resource, params);
+    const aorClient = (type, resource, params) =>
+        apolloConfiguredClient.handleRequest(type, resource, params);
 
-        const promise = getApolloPromise(client)(type, apolloParams).catch(handleError);
-        return promise
-            .then(response => parseApolloResponse(response, type, resource, apolloParams));
-    };
+    aorClient.saga = apolloWatchParameters =>
+        buildApolloSaga(apolloConfiguredClient, apolloWatchParameters);
+
+    return aorClient;
 };
