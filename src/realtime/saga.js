@@ -1,62 +1,11 @@
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { takeLatest, call, put, take } from 'redux-saga/effects';
-import { eventChannel, END } from 'redux-saga';
-import merge from 'lodash.merge';
-
 import { CRUD_GET_LIST, CRUD_GET_ONE, FETCH_START, FETCH_END } from 'admin-on-rest';
+import omit from 'lodash.omit';
 
-export const queryObserver = emitter => ({
-    complete() {
-        emitter(END);
-    },
-    error() {
-        emitter(END);
-    },
-    next(apolloQueryResult) {
-        emitter(apolloQueryResult);
-    },
-});
-
-export const createApolloQueryChannel = watcher => eventChannel((emitter) => {
-    const observer = queryObserver(emitter);
-    watcher.subscribe(observer);
-
-    const unsubscribe = () => {
-        observer.unsubscribe();
-    };
-
-    return unsubscribe;
-});
-
-export const buildAorAction = ({ type, payload, meta: { fetch: restType, ...meta } }, parsedApolloQueryResult) => ({
-    type: `${type}_SUCCESS`,
-    payload: parsedApolloQueryResult,
-    requestPayload: payload,
-    meta: { ...meta, fetchResponse: restType, fetchStatus: FETCH_END },
-});
-
-export const defaultWatchParameters = {
-    forceFetch: true,
-    pollInterval: 2000,
-};
-
-export const getWatchParametersForQuery = (apolloWatchParameters, action) => {
-    let parameters = apolloWatchParameters;
-
-    if (apolloWatchParameters) {
-        const resourceParameters = apolloWatchParameters[action.meta.resource];
-        if (resourceParameters) {
-            parameters = resourceParameters;
-            const resourceVerbParameters = resourceParameters[action.meta.fetch];
-
-            if (resourceVerbParameters) {
-                parameters = resourceVerbParameters;
-            }
-        }
-    }
-
-    return merge({}, defaultWatchParameters, parameters);
-};
+import buildAorAction from './buildAorAction';
+import createApolloQueryChannel from './createApolloQueryChannel';
+import getWatchParametersForQuery from './getWatchParametersForQuery';
 
 export const watchCrudActionsFactory = (apolloConfiguredClient, apolloWatchParameters) =>
     function* watchCrudActions(action) {
@@ -67,10 +16,10 @@ export const watchCrudActionsFactory = (apolloConfiguredClient, apolloWatchParam
 
         while (true) {
             const parsedApolloQueryResult = yield take(apolloQueryChannel);
-            const { type, payload, meta: { fetch, ...meta } } = action;
+            const { type, payload, meta } = action;
 
             yield [
-                put({ type: `${type}_LOADING`, payload, meta }),
+                put({ type: `${type}_LOADING`, payload, meta: omit(meta, 'fetch') }),
                 put({ type: FETCH_START }),
             ];
 
@@ -82,7 +31,7 @@ export const watchCrudActionsFactory = (apolloConfiguredClient, apolloWatchParam
         }
     };
 
-export const watchLocationChangeFactory = watchCrudActions => function* watchLocationChange(action) {
+export const watchLocationChangeFactory = watchCrudActions => function* watchLocationChange() {
     yield takeLatest([CRUD_GET_LIST, CRUD_GET_ONE], watchCrudActions);
 };
 

@@ -32,9 +32,9 @@ acorn@^3.0.4:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-3.3.0.tgz#45e37fb39e8da3f25baee3ff5369e2bb5f22017a"
 
-admin-on-rest@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/admin-on-rest/-/admin-on-rest-0.8.0.tgz#87b7806fcea6d0f6bc7bb4e3583d0e2c66752c8e"
+admin-on-rest@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/admin-on-rest/-/admin-on-rest-0.8.1.tgz#596331875d3ea83885a1a3ee395b7d5b41806d33"
   dependencies:
     babel-runtime "~6.18.0"
     inflection "~1.10.0"
@@ -2316,6 +2316,10 @@ lodash.keys@^3.0.0, lodash.keys@^3.1.2:
 lodash.merge@4.6.0, lodash.merge@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.0.tgz#69884ba144ac33fe699737a6086deffadd0f89c5"
+
+lodash.omit@4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.omit/-/lodash.omit-4.5.0.tgz#6eb19ae5a1ee1dd9df0b969e66ce0b7fa30b5e60"
 
 lodash.pickby@4.6.0:
   version "4.6.0"

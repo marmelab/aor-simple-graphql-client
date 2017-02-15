@@ -13,7 +13,6 @@ export const buildQueryObserver = (type, resource, apolloParams, observer) => ({
         observer.error();
     },
     next(apolloQueryResult) {
-        console.log('QueryObserver.next', { apolloQueryResult });
         const parsedApolloQueryResult = parseApolloResponse(
             apolloQueryResult,
             type,
