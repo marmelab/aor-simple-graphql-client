@@ -14,7 +14,7 @@
     "watch-test": "make watch-test"
   },
   "devDependencies": {
-    "admin-on-rest": "^0.8.1",
+    "admin-on-rest": "~0.8.1",
     "babel-cli": "6.22.2",
     "babel-core": "6.22.1",
     "babel-plugin-istanbul": "4.0.0",
@@ -43,6 +43,6 @@
     "redux-saga": "0.14.3"
   },
   "peerDependencies": {
-    "admin-on-rest": "^0.8.1"
+    "admin-on-rest": "~0.8.1"
   }
 }
