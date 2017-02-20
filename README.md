@@ -218,12 +218,164 @@ const queries = {
 **Note**: `GET_MANY` and `GET_MANY_REFERENCE` are optional.
 If not specified, `GET_LIST` will be called with the `filter` and `perPage` set to `1000`.
 
+## Realtime updates
+
+Using ApolloClient, one is able to get real time updates when data changes:
+see their [documentation](http://dev.apollodata.com/core/apollo-client-api.html#ApolloClient\.watchQuery) for details.
+
+With `aor-simple-graphql-client`, you can enable real time updates like this:
+
+```js
+import React, { Component } from 'react';
+import { buildApolloClient } from 'aor-simple-graphql-client';
+
+import { Admin, Resource } from 'admin-on-rest';
+import { Delete } from 'admin-on-rest/lib/mui';
+
+import createRestClient from '../lib/admin-on-rest/client';
+
+import { PostCreate, PostEdit, PostList } from '../components/admin/posts';
+
+const client = new ApolloClient();
+
+class AdminPage extends Component {
+    constructor() {
+        super();
+        this.state = { restClient: null };
+    }
+    componentDidMount() {
+        buildApolloClient()
+            .then(restClient => this.setState({ restClient }));
+    }
+
+    render() {
+        const { restClient } = this.state;
+
+        if (!restClient) {
+            return <div>Loading</div>;
+        }
+
+        return (
+            <Admin restClient={restClient} customSagas={[restClient.saga()]}>
+                <Resource name="Post" list={PostList} edit={PostEdit} create={PostCreate} remove={Delete} />
+            </Admin>
+        );
+    }
+}
+
+export default AdminPage;
+```
+
+We simply pass a custom [saga](https://marmelab.com/admin-on-rest/AdminResource.html#customsagas)
+to the `Admin` component.
+
+By default, it will use the Apollo polling mechanism with a `pollInterval` of 2 seconds for all
+`GET_LIST` and `GET_ONE` requests.
+
+### Customization
+
+You can specify the options to pass to the [watchQuery](http://dev.apollodata.com/core/apollo-client-api.html#ApolloClient\.watchQuery)
+function.
+
+#### For all resources and request types
+
+```js
+    const apolloWatchOptions = {
+        pollInterval: 10000,
+    };
+
+    const apolloSaga = restClient.saga(apolloWatchOptions);
+```
+
+Or, you can supply a function instead of an object and it will be call
+with `resource` and `requestType` parameters:
+
+```js
+    const apolloWatchOptions = (resource, requestType) => ({
+        pollInterval: 10000,
+    });
+
+    const apolloSaga = restClient.saga(apolloWatchOptions);
+```
+
+#### For a specific resources and all request types
+
+```js
+    const apolloWatchOptions = {
+        Post: {
+            pollInterval: 10000,
+        },
+        Comment: {
+            pollInterval: 5000,
+        },
+    };
+
+    const apolloSaga = restClient.saga(apolloWatchOptions);
+```
+
+Or, you can supply a function instead of an object and it will be call
+with a `requestType` parameter:
+
+```js
+    const apolloWatchOptions = (resource, requestType) => {
+        Post: {
+            pollInterval: 10000,
+        },
+        Comment: {
+            (requestType): => ({
+                pollInterval: 5000,
+            }),
+        },
+    };
+
+    const apolloSaga = restClient.saga(apolloWatchOptions);
+```
+
+#### For a specific resources and request type
+
+```js
+    const apolloWatchOptions = {
+        Post: {
+            pollInterval: 2000,
+        },
+        Comment: {
+            GET_ONE: {
+                pollInterval: 10000,
+            },
+            GET_LIST: {
+                pollInterval: 5000,
+            },
+        },
+    };
+
+    const apolloSaga = restClient.saga(apolloWatchOptions);
+```
+
+Or, you can supply a function instead of an object:
+
+```js
+    const apolloWatchOptions = (resource, requestType) => {
+        Post: {
+            pollInterval: 10000,
+        },
+        Comment: {
+            GET_ONE: {
+                pollInterval: 10000,
+            },
+            GET_LIST: {
+                (): => ({
+                    pollInterval: 5000,
+                }),
+            },
+        },
+    };
+
+    const apolloSaga = restClient.saga(apolloWatchOptions);
+```
+
 ## TODO
 
 - Sample application
-
-- Add a saga which listen router actions to initialize apollo requests (and activate polling, etc.)
-    and dispatch CRUD_XX_SUCCESS actions. This would allow real time update.
 
 ## Contributing
 

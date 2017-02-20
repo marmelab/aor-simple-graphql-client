@@ -24,3 +24,6 @@ watch-test:
 		--opts ./mocha.opts \
 		--watch \
 		"./src/**/*.spec.js"
+
+lint:
+	./node_modules/.bin/eslint ./src
