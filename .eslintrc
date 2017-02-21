@@ -5,8 +5,9 @@
     },
     "extends": "airbnb-base",
     "rules": {
+        "import/no-extraneous-dependencies": ["error", { "devDependencies": ["**/*.spec.js"] }],
         "indent": ["error", 4],
-        "max-len": ["error", { "code": 120, "tabWidth": 4, "ignoreUrls": true, "ignoreComments": true, "ignoreStrings": true }],
+        "max-len": ["error", { "code": 120, "tabWidth": 4, "ignoreUrls": true, "ignoreComments": true, "ignoreStrings": true, "ignoreTemplateLiterals": true }],
         "no-param-reassign": ["error", { "props": false }]
     }
 }
