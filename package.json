@@ -2,7 +2,7 @@
   "name": "aor-simple-graphql-client",
   "version": "0.0.2",
   "description": "A simple GraphQL client for admin-on-rest",
-  "main": "./lib.index.js",
+  "main": "./lib/index.js",
   "repository": "https://github.com/djhi/aor-simple-graphql-client.git",
   "author": "Gildas Garcia",
   "license": "MIT",
