@@ -3,11 +3,24 @@
     "es2015",
     "stage-0"
   ],
-
+  "plugins": [
+    [
+      "transform-runtime",
+      {
+        "polyfill": false,
+        "regenerator": true
+      }
+    ]
+  ],
   "env": {
     "test": {
       "plugins": [
-        ["istanbul", { "exclude": "**/*.spec.js" }]
+        [
+          "istanbul",
+          {
+            "exclude": "**/*.spec.js"
+          }
+        ]
       ]
     }
   }

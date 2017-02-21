@@ -28,7 +28,8 @@
     "nyc": "10.1.2"
   },
   "dependencies": {
-    "apollo-client": "0.8.5",
+    "apollo-client": "^0.8.7",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "graphql": "0.9.1",
     "graphql-tag": "1.2.4",
     "isomorphic-fetch": "2.2.1",
