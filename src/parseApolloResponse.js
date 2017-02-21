@@ -13,7 +13,7 @@ import {
  */
 const getApolloResultKey = (type, apolloParams) => (
     QUERY_TYPES.includes(type)
-    ? apolloParams.query.definitions[0].name.value
+    ? apolloParams.query.definitions[0].selectionSet.selections[0].name.value
     : apolloParams.mutation.definitions[0].selectionSet.selections[0].name.value
 );
 
