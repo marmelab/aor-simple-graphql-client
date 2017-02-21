@@ -23,9 +23,14 @@ describe('parseApolloResponse', () => {
                 },
             },
         };
+
         const apolloParams = {
             query: {
-                definitions: [{ name: { value: 'operationName' } }],
+                definitions: [{
+                    selectionSet: {
+                        selections: [{ name: { value: 'operationName' } }],
+                    },
+                }],
             },
         };
 
@@ -45,7 +50,11 @@ describe('parseApolloResponse', () => {
         };
         const apolloParams = {
             query: {
-                definitions: [{ name: { value: 'operationName' } }],
+                definitions: [{
+                    selectionSet: {
+                        selections: [{ name: { value: 'operationName' } }],
+                    },
+                }],
             },
         };
 
@@ -63,7 +72,11 @@ describe('parseApolloResponse', () => {
         };
         const apolloParams = {
             query: {
-                definitions: [{ name: { value: 'operationName' } }],
+                definitions: [{
+                    selectionSet: {
+                        selections: [{ name: { value: 'operationName' } }],
+                    },
+                }],
             },
         };
 
@@ -83,7 +96,11 @@ describe('parseApolloResponse', () => {
         };
         const apolloParams = {
             query: {
-                definitions: [{ name: { value: 'operationName' } }],
+                definitions: [{
+                    selectionSet: {
+                        selections: [{ name: { value: 'operationName' } }],
+                    },
+                }],
             },
         };
 
@@ -105,7 +122,11 @@ describe('parseApolloResponse', () => {
         };
         const apolloParams = {
             query: {
-                definitions: [{ name: { value: 'operationName' } }],
+                definitions: [{
+                    selectionSet: {
+                        selections: [{ name: { value: 'operationName' } }],
+                    },
+                }],
             },
         };
 
@@ -123,7 +144,11 @@ describe('parseApolloResponse', () => {
         };
         const apolloParams = {
             query: {
-                definitions: [{ name: { value: 'operationName' } }],
+                definitions: [{
+                    selectionSet: {
+                        selections: [{ name: { value: 'operationName' } }],
+                    },
+                }],
             },
         };
 
@@ -145,7 +170,11 @@ describe('parseApolloResponse', () => {
         };
         const apolloParams = {
             query: {
-                definitions: [{ name: { value: 'operationName' } }],
+                definitions: [{
+                    selectionSet: {
+                        selections: [{ name: { value: 'operationName' } }],
+                    },
+                }],
             },
         };
 
