@@ -1,24 +1,13 @@
 language: node_js
 
 node_js:
-    - "7.5.0"
+    - "7.7.2"
 
 env:
     global:
-        - CHROME_BIN="chromium-browser"
-        - CXX=g++-4.8
-        - DISPLAY=:99.0
         - NODE_ENV=test
 
 dist: trusty
-
-addons:
-    apt:
-        sources:
-            - ubuntu-toolchain-r-test
-        packages:
-            - gcc-4.8
-            - g++-4.8
 
 cache:
     yarn: true
@@ -27,8 +16,6 @@ cache:
 
 before_install:
     - npm install -g yarn
-    - sh -e /etc/init.d/xvfb start
-    - sleep 3
 
 install:
     - "make --silent install"

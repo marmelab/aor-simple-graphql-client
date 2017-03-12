@@ -14,7 +14,7 @@ export default client =>
         if (QUERY_TYPES.includes(type)) {
             return client.query({
                 ...apolloParams,
-                forceFetch: true,
+                fetchPolicy: 'network-only',
             });
         }
 

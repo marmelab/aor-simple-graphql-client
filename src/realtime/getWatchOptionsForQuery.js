@@ -3,12 +3,12 @@ import pick from 'lodash.pick';
 import getOrCall from '../getOrCall';
 
 export const defaultWatchOptions = {
-    forceFetch: true,
+    fetchPolicy: 'network-only',
     pollInterval: 2000,
 };
 
 const knownApolloOptions = [
-    'forceFetch',
+    'fetchPolicy',
     'metadata',
     'noFetch',
     'notifyOnNetworkStatusChange',
