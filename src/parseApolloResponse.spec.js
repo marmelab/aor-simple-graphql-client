@@ -83,7 +83,9 @@ describe('parseApolloResponse', () => {
         const result = parseApolloResponse(response, GET_ONE, 'Post', apolloParams);
 
         expect(result).toEqual({
-            id: 'post1',
+            data: {
+                id: 'post1',
+            },
         });
     });
 
@@ -106,7 +108,7 @@ describe('parseApolloResponse', () => {
 
         const result = parseApolloResponse(response, GET_MANY, 'Post', apolloParams);
 
-        expect(result).toEqual(items);
+        expect(result).toEqual({ data: items });
     });
 
     it('returns the reponse data for GET_MANY when it falled back to GET_LIST', () => {
@@ -132,7 +134,7 @@ describe('parseApolloResponse', () => {
 
         const result = parseApolloResponse(response, GET_MANY, 'Post', apolloParams);
 
-        expect(result).toEqual(items);
+        expect(result).toEqual({ data: items });
     });
 
     it('returns the reponse data for GET_MANY_REFERENCE', () => {
@@ -154,7 +156,7 @@ describe('parseApolloResponse', () => {
 
         const result = parseApolloResponse(response, GET_MANY_REFERENCE, 'Post', apolloParams);
 
-        expect(result).toEqual(items);
+        expect(result).toEqual({ data: items });
     });
 
     it('returns the reponse data for GET_MANY_REFERENCE when it falled back to GET_LIST', () => {
@@ -180,7 +182,7 @@ describe('parseApolloResponse', () => {
 
         const result = parseApolloResponse(response, GET_MANY_REFERENCE, 'Post', apolloParams);
 
-        expect(result).toEqual(items);
+        expect(result).toEqual({ data: items });
     });
 
     it('returns the reponse data for CREATE', () => {
@@ -201,7 +203,7 @@ describe('parseApolloResponse', () => {
 
         const result = parseApolloResponse(response, CREATE, 'Post', apolloParams);
 
-        expect(result).toEqual({ id: 'post1' });
+        expect(result).toEqual({ data: { id: 'post1' } });
     });
 
     it('returns the reponse data for UPDATE', () => {
@@ -222,7 +224,7 @@ describe('parseApolloResponse', () => {
 
         const result = parseApolloResponse(response, UPDATE, 'Post', apolloParams);
 
-        expect(result).toEqual({ id: 'post1' });
+        expect(result).toEqual({ data: { id: 'post1' } });
     });
 
     it('returns the reponse data for DELETE', () => {
@@ -243,6 +245,6 @@ describe('parseApolloResponse', () => {
 
         const result = parseApolloResponse(response, DELETE, 'Post', apolloParams);
 
-        expect(result).toEqual(true);
+        expect(result).toEqual({ data: true });
     });
 });
