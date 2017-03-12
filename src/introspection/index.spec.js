@@ -25,46 +25,20 @@ describe('buildQueriesForResource', () => {
         : { [GET_LIST]: true }
     ));
 
-    it('calls fetchSchema without any arguments when no options supplied', () => {
+    it('calls fetchSchema with the client', () => {
         buildQueriesForResourceFactory(
             fetchSchema,
             listResourcesFromSchema,
             listQueriesFromSchema,
             listMutationsFromSchema,
             buildQueriesForResource,
-        )();
+        )({ client: 'client' });
 
-        expect(fetchSchema).toHaveBeenCalledWith(null);
-    });
-
-    it('calls fetchSchema with string when options is a string', () => {
-        const options = 'http://localhost/';
-        buildQueriesForResourceFactory(
-            fetchSchema,
-            listResourcesFromSchema,
-            listQueriesFromSchema,
-            listMutationsFromSchema,
-            buildQueriesForResource,
-        )(options);
-
-        expect(fetchSchema).toHaveBeenCalledWith(options);
-    });
-
-    it('calls fetchSchema with string when options has an url key', () => {
-        const url = 'http://localhost/';
-        buildQueriesForResourceFactory(
-            fetchSchema,
-            listResourcesFromSchema,
-            listQueriesFromSchema,
-            listMutationsFromSchema,
-            buildQueriesForResource,
-        )({ url });
-
-        expect(fetchSchema).toHaveBeenCalledWith(url);
+        expect(fetchSchema).toHaveBeenCalledWith('client');
     });
 
     it('calls listResourcesFromSchema with the schema and options', () => {
-        const options = { url: 'http://localhost/' };
+        const options = { client: 'client' };
         buildQueriesForResourceFactory(
             fetchSchema,
             listResourcesFromSchema,
@@ -77,7 +51,7 @@ describe('buildQueriesForResource', () => {
     });
 
     it('calls listQueriesFromSchema with the schema and options', () => {
-        const options = { url: 'http://localhost/' };
+        const options = { client: 'client' };
         buildQueriesForResourceFactory(
             fetchSchema,
             listResourcesFromSchema,
@@ -90,7 +64,7 @@ describe('buildQueriesForResource', () => {
     });
 
     it('calls listMutationsFromSchema with the schema and options', () => {
-        const options = { url: 'http://localhost/' };
+        const options = { client: 'client' };
         buildQueriesForResourceFactory(
             fetchSchema,
             listResourcesFromSchema,
@@ -103,7 +77,7 @@ describe('buildQueriesForResource', () => {
     });
 
     it('builds an object with a key for each resource name', async () => {
-        const options = { url: 'http://localhost/' };
+        const options = { client: 'client' };
         const queriesByResource = await buildQueriesForResourceFactory(
             fetchSchema,
             listResourcesFromSchema,

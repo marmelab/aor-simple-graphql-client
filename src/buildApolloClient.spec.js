@@ -30,8 +30,8 @@ describe('buildApolloClient', () => {
     });
 
     describe('getQueries', () => {
-        it('returns the supplied queries', async () => {
-            const result = await getQueries({ queries: 'queries' });
+        it('returns the supplied queries', () => {
+            const result = getQueries({ queries: 'queries' });
             expect(result).toEqual('queries');
         });
     });

@@ -158,7 +158,6 @@ These are the default options for introspection:
 
 ```js
 const introspectionOptions = {
-    uri: null, // The uri of the GraphQL endpoint, if not supplied, will fall back on the client network interface uri
     includeTypes: null, // Either an array of types to include or a function which will be called with each OBJECT type discovered through introspection
     excludeTypes: null, // Either an array of types to exclude or a function which will be called with each OBJECT type discovered through introspection (`Query` and `Mutation` are excluded anyway)
     includeQueries: null, // Either an array of queries to include or a function which will be called with each query discovered through introspection

@@ -1,32 +1,22 @@
 import expect, { createSpy } from 'expect';
 import { introspectionQuery } from 'graphql';
+import gql from 'graphql-tag';
 
-import { fetchSchemaFactory } from './fetchSchema';
+import fetchSchema from './fetchSchema';
 
 describe('fetchSchema', () => {
-    const json = createSpy().andReturn({ data: { __schema: 'a graphql schema' } });
-
-    const response = {
-        json,
+    const client = {
+        query: createSpy().andReturn(Promise.resolve({ data: { __schema: 'a graphql schema' } })),
     };
-    const fetch = createSpy().andReturn(Promise.resolve(response));
-    const fetchSchema = fetchSchemaFactory(fetch);
 
-    it('calls fetch', () => {
-        fetchSchema('a graphql endpoint');
+    it('calls client.query', () => {
+        fetchSchema(client);
 
-        expect(fetch).toHaveBeenCalledWith('a graphql endpoint', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ query: introspectionQuery }),
-        });
+        expect(client.query).toHaveBeenCalledWith({ query: gql`${introspectionQuery}` });
     });
 
     it('returns the schema from the response', () =>
-        fetchSchema('a graphql endpoint').then((schema) => {
+        fetchSchema(client).then((schema) => {
             expect(schema).toEqual('a graphql schema');
         }),
     );
