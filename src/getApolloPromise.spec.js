@@ -27,7 +27,7 @@ describe('getApolloPromise', () => {
 
         expect(client.query).toHaveBeenCalledWith({
             ...params,
-            forceFetch: true,
+            fetchPolicy: 'network-only',
         });
     });
 
@@ -36,7 +36,7 @@ describe('getApolloPromise', () => {
 
         expect(client.query).toHaveBeenCalledWith({
             ...params,
-            forceFetch: true,
+            fetchPolicy: 'network-only',
         });
     });
 
@@ -45,7 +45,7 @@ describe('getApolloPromise', () => {
 
         expect(client.query).toHaveBeenCalledWith({
             ...params,
-            forceFetch: true,
+            fetchPolicy: 'network-only',
         });
     });
 
@@ -54,7 +54,7 @@ describe('getApolloPromise', () => {
 
         expect(client.query).toHaveBeenCalledWith({
             ...params,
-            forceFetch: true,
+            fetchPolicy: 'network-only',
         });
     });
 
