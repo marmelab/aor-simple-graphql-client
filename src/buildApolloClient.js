@@ -12,7 +12,7 @@ export const getClient = ({ client, clientOptions }) => {
 
         if (networkInterface) {
             if (networkInterface && uri) {
-                console.warn('You specified a networkInterface and an uri option. uri will be ignored.');
+                console.error('Warning: You specified a networkInterface and an uri option. uri will be ignored.');
             }
             return new ApolloClient({ ...options, networkInterface });
         }
