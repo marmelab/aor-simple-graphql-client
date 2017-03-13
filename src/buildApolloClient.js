@@ -27,13 +27,11 @@ export const getClient = ({ client, clientOptions }) => {
     return new ApolloClient();
 };
 
-export const getQueries = async (options) => {
+export const getQueries = (options) => {
     if (options.queries) return options.queries;
 
-    const uri = options.client.networkInterface._uri; // eslint-disable-line
-
     return buildQueriesFromIntrospection({
-        uri,
+        client: options.client,
         ...options.introspection,
     });
 };

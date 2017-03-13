@@ -17,19 +17,13 @@ import {
     UPDATE,
 } from '../constants';
 
-const REQUIRED_RESOURCE_KEYS = [
-    GET_LIST,
-    GET_ONE,
-];
+const REQUIRED_RESOURCE_KEYS = [GET_LIST, GET_ONE];
 
-const isValidResource = value => REQUIRED_RESOURCE_KEYS
-    .every(requiredKey => Object
-        .keys(value)
-        .some(resourceKey => resourceKey === requiredKey && !!value[resourceKey]),
-    );
+const isValidResource = value =>
+    REQUIRED_RESOURCE_KEYS.every(requiredKey =>
+        Object.keys(value).some(resourceKey => resourceKey === requiredKey && !!value[resourceKey]));
 
 export const defaultOptions = {
-    url: null,
     includeTypes: null,
     excludeTypes: null,
     includeQueries: null,
@@ -64,15 +58,18 @@ export const buildQueriesForResourceFactory = (
             options = merge({}, defaultOptions, userOptions);
         }
 
-        const schema = await fetchSchemaImpl(options.url);
+        const schema = await fetchSchemaImpl(options.client);
         const resourceTypes = listResourcesFromSchemaImpl(schema, options);
         const queries = listQueriesFromSchemaImpl(schema, options);
         const mutations = listMutationsFromSchemaImpl(schema, options);
 
-        const resources = resourceTypes.reduce((queriesByResource, resourceType) => ({
-            ...queriesByResource,
-            [resourceType.name]: buildQueriesForResourceImpl(resourceType, [...queries, ...mutations], options),
-        }), {});
+        const resources = resourceTypes.reduce(
+            (queriesByResource, resourceType) => ({
+                ...queriesByResource,
+                [resourceType.name]: buildQueriesForResourceImpl(resourceType, [...queries, ...mutations], options),
+            }),
+            {},
+        );
 
         const result = pickBy(resources, isValidResource);
 
