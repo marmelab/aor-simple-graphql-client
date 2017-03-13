@@ -35,8 +35,6 @@ import { buildApolloClient } from 'aor-simple-graphql-client';
 import { Admin, Resource } from 'admin-on-rest';
 import { Delete } from 'admin-on-rest/lib/mui';
 
-import createRestClient from '../lib/admin-on-rest/client';
-
 import { PostCreate, PostEdit, PostList } from '../components/admin/posts';
 
 const client = new ApolloClient();
@@ -145,7 +143,7 @@ removePost(id: ID!) Boolean
 You can either supply the client options by calling `buildApolloClient` like this:
 
 ```js
-buildApolloClient({ clientOptions: { url: 'http://localhost:3000', ...otherOptions } });
+buildApolloClient({ clientOptions: { uri: 'http://localhost:3000', ...otherApolloOptions } });
 ```
 
 Or supply your client directly with:
@@ -160,7 +158,7 @@ These are the default options for introspection:
 
 ```js
 const introspectionOptions = {
-    url: null, // The url of the GraphQL endpoint, if not supplied, will fall back on the client network interface url
+    uri: null, // The uri of the GraphQL endpoint, if not supplied, will fall back on the client network interface uri
     includeTypes: null, // Either an array of types to include or a function which will be called with each OBJECT type discovered through introspection
     excludeTypes: null, // Either an array of types to exclude or a function which will be called with each OBJECT type discovered through introspection (`Query` and `Mutation` are excluded anyway)
     includeQueries: null, // Either an array of queries to include or a function which will be called with each query discovered through introspection
@@ -231,8 +229,6 @@ import { buildApolloClient } from 'aor-simple-graphql-client';
 
 import { Admin, Resource } from 'admin-on-rest';
 import { Delete } from 'admin-on-rest/lib/mui';
-
-import createRestClient from '../lib/admin-on-rest/client';
 
 import { PostCreate, PostEdit, PostList } from '../components/admin/posts';
 

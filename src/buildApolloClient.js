@@ -1,21 +1,39 @@
-import ApolloClient from 'apollo-client';
+import { ApolloClient, createNetworkInterface } from 'apollo-client';
 
 import buildApolloConfiguredClient from './buildApolloConfiguredClient';
 import buildApolloSaga from './realtime';
 import buildQueriesFromIntrospection from './introspection';
 
-const getClient = (options) => {
-    if (options.client) return options.client;
+export const getClient = ({ client, clientOptions }) => {
+    if (client) return client;
 
-    return new ApolloClient(options.clientOptions);
+    if (clientOptions) {
+        const { networkInterface, uri, ...options } = clientOptions;
+
+        if (networkInterface) {
+            if (networkInterface && uri) {
+                console.error('Warning: You specified a networkInterface and an uri option. uri will be ignored.');
+            }
+            return new ApolloClient({ ...options, networkInterface });
+        }
+
+        if (!networkInterface && uri) {
+            options.networkInterface = createNetworkInterface({ uri });
+        }
+
+        return new ApolloClient(options);
+    }
+
+    return new ApolloClient();
 };
 
-const getQueries = async (options) => {
+export const getQueries = async (options) => {
     if (options.queries) return options.queries;
 
-    const url = options.client.networkInterface._uri; // eslint-disable-line
+    const uri = options.client.networkInterface._uri; // eslint-disable-line
+
     return buildQueriesFromIntrospection({
-        url,
+        uri,
         ...options.introspection,
     });
 };
@@ -42,11 +60,9 @@ export default async (options) => {
      * @param {Object} payload Request parameters. Depends on the request type
      * @returns {Promise} the Promise for a REST response
      */
-    const aorClient = (type, resource, params) =>
-        apolloConfiguredClient.handleRequest(type, resource, params);
+    const aorClient = (type, resource, params) => apolloConfiguredClient.handleRequest(type, resource, params);
 
-    aorClient.saga = apolloWatchOptions =>
-        buildApolloSaga(apolloConfiguredClient, apolloWatchOptions);
+    aorClient.saga = apolloWatchOptions => buildApolloSaga(apolloConfiguredClient, apolloWatchOptions);
 
     return aorClient;
 };
