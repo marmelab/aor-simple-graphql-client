@@ -10,6 +10,8 @@ built with [Apollo](http://www.apollodata.com/)
 This library is meant to be used with Apollo on the **client** side but
 you're free to use any graphql server.
 
+Note that this client is **not** compatible with [graphcool](https://www.graph.cool/). However, another client exists for graphcool: [aor-graph-cool-client](https://github.com/mulyoved/aor-simple-graphql-client).
+
 ## Installation
 
 Install with:
