@@ -10,7 +10,7 @@ export const buildQueryFactory = buildFieldListImpl => (resource, type, queries,
 
     let fields;
     if (type.returnsFields) {
-        fields = buildFieldListImpl(resource, query, type.name, options);
+        fields = buildFieldListImpl(resource, type, options);
     }
 
     return type.query(operationName, fields);

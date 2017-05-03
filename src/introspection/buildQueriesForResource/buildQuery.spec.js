@@ -67,7 +67,7 @@ describe('buildQuery', () => {
         };
 
         buildQueryFactory(buildFieldList)(resource, type, queries, options);
-        expect(buildFieldList).toHaveBeenCalledWith(resource, { name: 'listPosts' }, type.name, options);
+        expect(buildFieldList).toHaveBeenCalledWith(resource, type, options);
     });
 
     it('calls the specified type query function with built fields when its gql query returns an object with fields', () => {
