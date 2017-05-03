@@ -1,6 +1,6 @@
 {
   "name": "aor-simple-graphql-client",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A simple GraphQL client for admin-on-rest",
   "main": "./lib/index.js",
   "repository": "https://github.com/djhi/aor-simple-graphql-client.git",
