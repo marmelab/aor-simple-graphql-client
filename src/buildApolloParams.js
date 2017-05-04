@@ -15,10 +15,17 @@ import {
  * @returns {Object} apolloParams An object passed to either apolloClient.query or apolloClient.mutate
  */
 export default (queries, type, resource, params) => {
+    const resourceQueries = queries[resource];
+
+    if (!resourceQueries) {
+        const knownResources = Object.keys(queries).map(key => `\r\n - ${key}`).join('');
+        throw new Error(`Unable to find queries and/or mutations for the "${resource}" resource. Known resources are: ${knownResources}`);
+    }
+
     switch (type) {
     case GET_LIST: {
         return {
-            query: queries[resource][GET_LIST],
+            query: resourceQueries[GET_LIST],
             variables: {
                 filter: JSON.stringify(params.filter),
                 page: params.pagination.page - 1,
@@ -31,7 +38,7 @@ export default (queries, type, resource, params) => {
 
     case GET_ONE:
         return {
-            query: queries[resource][GET_ONE],
+            query: resourceQueries[GET_ONE],
             variables: {
                 id: params.id,
             },
@@ -42,7 +49,7 @@ export default (queries, type, resource, params) => {
             filter: JSON.stringify({ ids: params.ids }),
         };
 
-        if (!queries[resource][GET_MANY]) {
+        if (!resourceQueries[GET_MANY]) {
             variables = {
                 ...variables,
                 perPage: 1000,
@@ -50,7 +57,7 @@ export default (queries, type, resource, params) => {
         }
 
         return {
-            query: queries[resource][GET_MANY] || queries[resource][GET_LIST],
+            query: resourceQueries[GET_MANY] || resourceQueries[GET_LIST],
             variables,
         };
     }
@@ -60,7 +67,7 @@ export default (queries, type, resource, params) => {
             filter: JSON.stringify({ [params.target]: params.id }),
         };
 
-        if (!queries[resource][GET_MANY_REFERENCE]) {
+        if (!resourceQueries[GET_MANY_REFERENCE]) {
             variables = {
                 ...variables,
                 perPage: 1000,
@@ -68,26 +75,26 @@ export default (queries, type, resource, params) => {
         }
 
         return {
-            query: queries[resource][GET_MANY_REFERENCE] || queries[resource][GET_LIST],
+            query: resourceQueries[GET_MANY_REFERENCE] || resourceQueries[GET_LIST],
             variables,
         };
     }
 
     case UPDATE:
         return {
-            mutation: queries[resource][UPDATE],
+            mutation: resourceQueries[UPDATE],
             variables: { data: JSON.stringify(params.data) },
         };
 
     case CREATE:
         return {
-            mutation: queries[resource][CREATE],
+            mutation: resourceQueries[CREATE],
             variables: { data: JSON.stringify(params.data) },
         };
 
     case DELETE:
         return {
-            mutation: queries[resource][DELETE],
+            mutation: resourceQueries[DELETE],
             variables: {
                 id: params.id,
             },
