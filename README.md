@@ -185,7 +185,7 @@ And how you pass them to the `buildApolloClient` function:
 buildApolloClient({ introspection: introspectionOptions });
 ```
 
-Note that `excludeXXX` and `includeXXX` are mutualy exclusives and
+**Note**: `excludeXXX` and `includeXXX` are mutualy exclusives and
 that `includeXXX` will always take precendance.
 
 `excludeFields` deserves more details. If supplying a function, it
@@ -214,8 +214,19 @@ const queries = {
 }
 ```
 
+```js
+buildApolloClient({ queries });
+```
+
 **Note**: `GET_MANY` and `GET_MANY_REFERENCE` are optional.
 If not specified, `GET_LIST` will be called with the `filter` and `perPage` set to `1000`.
+
+**Note**: You can mix introspection and custom queries by just supplying your custom queries.
+If you want to disable introspection, set the `introspection` option to `false`.
+
+```js
+buildApolloClient({ queries, introspection: false });
+```
 
 ## Realtime updates
 

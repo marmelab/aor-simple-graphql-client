@@ -1,4 +1,5 @@
 import { ApolloClient, createNetworkInterface } from 'apollo-client';
+import merge from 'lodash.merge';
 
 import buildApolloConfiguredClient from './buildApolloConfiguredClient';
 import buildApolloSaga from './realtime';
@@ -27,13 +28,17 @@ export const getClient = ({ client, clientOptions }) => {
     return new ApolloClient();
 };
 
-export const getQueries = (options) => {
-    if (options.queries) return options.queries;
+export const getQueries = buildQueriesFromIntrospectionImpl => async (options) => {
+    if (options.queries && options.introspection === false) {
+        return options.queries;
+    }
 
-    return buildQueriesFromIntrospection({
+    const queriesFromIntrospection = await buildQueriesFromIntrospectionImpl({
         client: options.client,
         ...options.introspection,
     });
+
+    return merge({}, queriesFromIntrospection, options.queries);
 };
 
 /**
@@ -49,7 +54,7 @@ export default async (options) => {
     const client = getClient(finalOptions);
     finalOptions.client = client;
 
-    const queries = await getQueries(finalOptions);
+    const queries = await getQueries(buildQueriesFromIntrospection)(finalOptions);
 
     const apolloConfiguredClient = buildApolloConfiguredClient(client, queries);
     /**
