@@ -1,4 +1,4 @@
-import expect from 'expect';
+import expect, { createSpy } from 'expect';
 import { createNetworkInterface } from 'apollo-client';
 
 import { getClient, getQueries } from './buildApolloClient';
@@ -30,9 +30,15 @@ describe('buildApolloClient', () => {
     });
 
     describe('getQueries', () => {
-        it('returns the supplied queries', () => {
-            const result = getQueries({ queries: 'queries' });
-            expect(result).toEqual('queries');
+        it('returns the supplied queries with introspection disabled', async () => {
+            const result = await getQueries()({ introspection: false, queries: { customQuery: '' } });
+            expect(result).toEqual({ customQuery: '' });
+        });
+
+        it('returns the supplied queries with introspection enabled', async () => {
+            const buildQueriesFromIntrospectionImpl = createSpy().andReturn(Promise.resolve({ introspectedQuery: '', overrideMe: 'from_instrospection' }));
+            const result = await getQueries(buildQueriesFromIntrospectionImpl)({ queries: { customQuery: '', overrideMe: 'from_customQueries' } });
+            expect(result).toEqual({ introspectedQuery: '', customQuery: '', overrideMe: 'from_customQueries' });
         });
     });
 });
