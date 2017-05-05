@@ -170,6 +170,8 @@ const introspectionOptions = {
     includeMutations: null, // Either an array of mutations to include or a function which will be called with each mutation discovered through introspection
     excludeMutations: null, // Either an array of mutations to exclude or a function which will be called with each mutation discovered through introspection
     excludeFields: null, // Either an array of fields to exclude or a function which will be called with each field discovered through introspection on a specific object (more details below)
+    ignoreSubObjects: true, // If true, introspection will ignore sub objects AND sub resources from the returned fields (more details below)
+    ignoreSubResources: true, // If true and ignoreSubObjects is false, introspection will ignore sub resources from the returned fields (more details below)
 
     // This contains templates for defining the queries and mutations names which will also be used as the operations names
     templates: {
@@ -198,6 +200,76 @@ will receive the following parameters:
     [introspection](http://graphql.org/learn/introspection/) for more details)
 - `resource`: the resource type (for example: `Post`)
 - `type`: the operation type (matching those of **admin-on-rest**, for example: `GET_LIST`)
+
+`ignoreSubObjects` can be set to `true` to ignore sub objects in queries and mutations results. Consider the following GQL schema:
+
+```
+    type Customer {
+        id ID!
+        name String
+    }
+
+    type Product {
+        id ID!
+        reference String
+    }
+
+    type OrderItem {
+        productId ID!
+        product Product
+        quantity Int
+    }
+
+    type Order {
+        id ID!
+        customerId ID!
+        customer Customer
+        date Date
+        items: [OrderItem]
+    }
+```
+
+If `ignoreSubObjects` is `true` and `ignoreSubResources` is `true` (the default), the `getOrder` query will be generated like this:
+
+```
+    getOrder(id ID!) {
+        id
+        customerId
+        date
+    }
+```
+
+If `ignoreSubObjects` is `false` and `ignoreSubResources` is `true`, the `getOrder` query will be generated like this:
+
+```
+    getOrder(id ID!) {
+        id
+        customerId
+        date
+        items {
+            productId
+            quantity
+        }
+    }
+```
+
+If `ignoreSubObjects` is `false` and `ignoreSubResources` is `false`, the `getOrder` query will be generated like this:
+
+```
+    getOrder(id ID!) {
+        id
+        customerId
+        customer { id name }
+        date
+        items {
+            productId
+            product { id reference }
+            quantity
+        }
+    }
+```
+
+**Note**: Remember that those two options could lead to recursive loading of many resources. Use them with caution.
 
 ### Supply your own queries and mutations
 

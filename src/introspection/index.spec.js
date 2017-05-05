@@ -2,17 +2,25 @@ import expect, { createSpy } from 'expect';
 import merge from 'lodash.merge';
 
 import { buildQueriesForResourceFactory, defaultOptions } from './';
-
 import { GET_LIST, GET_ONE, CREATE, DELETE, UPDATE } from '../constants';
 
-describe('buildQueriesForResource', () => {
+describe('introspection', () => {
     const fetchSchema = createSpy().andReturn('schema');
-    const listResourcesFromSchema = createSpy().andReturn([{ name: 'Post' }, { name: 'Order' }]);
-    const listQueriesFromSchema = createSpy().andReturn({ query: true });
+    const listResourcesFromSchema = createSpy().andReturn([
+        { name: 'Post' },
+        { name: 'Order' },
+        { name: 'PartiallyInvalidResource' },
+        { name: 'InvalidResource' },
+    ]);
+    const listQueriesFromSchema = createSpy().andReturn([
+        { name: 'getPageOfPosts' },
+        { name: 'getPost' },
+        { name: 'getPageOfOrders' },
+        { name: 'getOrder' },
+        { name: 'getPartiallyInvalidResource' },
+    ]);
     const listMutationsFromSchema = createSpy().andReturn({ mutation: true });
-    const buildQueriesForResource = createSpy().andCall(
-        resource => (resource.name === 'Post' ? { [GET_LIST]: true, [GET_ONE]: true } : { [GET_LIST]: true }),
-    );
+    const buildQueriesForResource = createSpy().andReturn('built_queries');
 
     it('calls fetchSchema with the client', () => {
         buildQueriesForResourceFactory(
@@ -65,7 +73,7 @@ describe('buildQueriesForResource', () => {
         expect(listMutationsFromSchema).toHaveBeenCalledWith('schema', merge({}, defaultOptions, options));
     });
 
-    it('builds an object with a key for each resource name', async () => {
+    it('builds an object with a key for each resource name, filtering invalid resources', async () => {
         const options = { client: 'client' };
         const queriesByResource = await buildQueriesForResourceFactory(
             fetchSchema,
@@ -76,10 +84,8 @@ describe('buildQueriesForResource', () => {
         )(options);
 
         expect(queriesByResource).toEqual({
-            Post: {
-                [GET_LIST]: true,
-                [GET_ONE]: true,
-            },
+            Post: 'built_queries',
+            Order: 'built_queries',
         });
     });
 

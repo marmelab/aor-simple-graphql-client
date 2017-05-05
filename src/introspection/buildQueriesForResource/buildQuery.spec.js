@@ -13,11 +13,12 @@ describe('buildQuery', () => {
         const options = {
             templates: {
                 GET_LIST: createSpy().andReturn('listPosts'),
+                GET_ONE: createSpy().andReturn('findPost'),
                 CREATE: () => 'createPost',
             },
         };
 
-        buildQueryFactory(buildFieldList)(resource, type, queries, options);
+        buildQueryFactory(buildFieldList)(resource, type, queries, [], [], options);
         expect(options.templates.GET_LIST).toHaveBeenCalledWith(resource);
     });
 
@@ -29,11 +30,12 @@ describe('buildQuery', () => {
         const options = {
             templates: {
                 GET_LIST: () => 'listPosts',
+                GET_ONE: createSpy().andReturn('findPost'),
                 CREATE: () => 'createPost',
             },
         };
 
-        const query = buildQueryFactory(buildFieldList)(resource, type, queries, options);
+        const query = buildQueryFactory(buildFieldList)(resource, type, queries, [], [], options);
 
         expect(query).toNotExist();
     });
@@ -46,10 +48,11 @@ describe('buildQuery', () => {
         const options = {
             templates: {
                 GET_LIST: () => 'listPosts',
+                GET_ONE: createSpy().andReturn('findPost'),
                 CREATE: () => 'createPost',
             },
         };
-        const query = buildQueryFactory(buildFieldList)(resource, type, queries, options);
+        const query = buildQueryFactory(buildFieldList)(resource, type, queries, [], [], options);
 
         expect(query).toEqual(expectedQuery);
     });
@@ -62,12 +65,13 @@ describe('buildQuery', () => {
         const options = {
             templates: {
                 GET_LIST: () => 'listPosts',
+                GET_ONE: createSpy().andReturn('findPost'),
                 CREATE: () => 'createPost',
             },
         };
 
-        buildQueryFactory(buildFieldList)(resource, type, queries, options);
-        expect(buildFieldList).toHaveBeenCalledWith(resource, type, options);
+        buildQueryFactory(buildFieldList)(resource, type, queries, [], [], options);
+        expect(buildFieldList).toHaveBeenCalledWith(resource, type, [], [], options);
     });
 
     it('calls the specified type query function with built fields when its gql query returns an object with fields', () => {
@@ -78,11 +82,12 @@ describe('buildQuery', () => {
         const options = {
             templates: {
                 GET_LIST: () => 'listPosts',
+                GET_ONE: createSpy().andReturn('findPost'),
                 CREATE: () => 'createPost',
             },
         };
 
-        buildQueryFactory(buildFieldList)(resource, type, queries, options);
+        buildQueryFactory(buildFieldList)(resource, type, queries, [], [], options);
         expect(type.query).toHaveBeenCalledWith('listPosts', expectedFields);
     });
 });
