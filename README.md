@@ -5,6 +5,9 @@
 A simple GraphQL client for [admin-on-rest](https://github.com/marmelab/admin-on-rest/)
 built with [Apollo](http://www.apollodata.com/)
 
+A version of the `admin-on-rest` demo using this client is available at https://marmelab.com/admin-on-rest-graphql-demo.<br>
+The source code for this demo is available at https://github.com/marmelab/admin-on-rest-graphql-demo.
+
 ## About GraphQL and Apollo
 
 This library is meant to be used with Apollo on the **client** side but
@@ -380,10 +383,6 @@ Or, you can supply a function instead of an object:
 
     const apolloSaga = restClient.saga(apolloWatchOptions);
 ```
-
-## TODO
-
-- Sample application
 
 ## Contributing
 
