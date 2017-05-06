@@ -1,29 +1,42 @@
-install:
-	yarn
+.PHONY: build help
 
-clean:
-	rm -rf lib
+help:
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-build: clean
-	NODE_ENV=production ./node_modules/.bin/babel \
+install: package.json ## Install dependencies
+	@yarn
+
+clean: ## Clean up the lib folder for building
+	@rm -rf lib
+
+build: clean ## Compile ES6 files to JS
+	@NODE_ENV=production ./node_modules/.bin/babel \
 		--out-dir=lib \
 		--stage=0 \
 		--ignore=*.spec.js \
-		src
+		./src
 
-test:
-	NODE_ENV=test ./node_modules/.bin/nyc \
+watch: ## Continuously compile ES6 files to JS
+	@NODE_ENV=production ./node_modules/.bin/babel \
+		--out-dir=lib \
+		--stage=0 \
+		--ignore=*.spec.js \
+		--watch \
+		./src
+
+test: ## Launch unit tests
+	@NODE_ENV=test ./node_modules/.bin/nyc \
 		./node_modules/.bin/mocha \
 		--opts ./mocha.opts \
 		"./src/**/*.spec.js"
 
 
-watch-test:
-	NODE_ENV=test ./node_modules/.bin/nyc \
+watch-test: ## Launch unit tests and watch for changes
+	@NODE_ENV=test ./node_modules/.bin/nyc \
 		./node_modules/.bin/mocha \
 		--opts ./mocha.opts \
 		--watch \
 		"./src/**/*.spec.js"
 
-lint:
-	./node_modules/.bin/eslint ./src
+format: ## Format the source code
+	@./node_modules/.bin/eslint --fix ./src

@@ -28,7 +28,7 @@ export const getClient = ({ client, clientOptions }) => {
     return new ApolloClient();
 };
 
-export const getQueries = buildQueriesFromIntrospectionImpl => async (options) => {
+export const getQueries = buildQueriesFromIntrospectionImpl => async options => {
     if (options.queries && options.introspection === false) {
         return options.queries;
     }
@@ -45,7 +45,7 @@ export const getQueries = buildQueriesFromIntrospectionImpl => async (options) =
  * Maps admin-on-rest queries to an Apollo GraphQL endpoint
  * @param {Object} options
  */
-export default async (options) => {
+export default async options => {
     let finalOptions = options;
 
     if (!options) {

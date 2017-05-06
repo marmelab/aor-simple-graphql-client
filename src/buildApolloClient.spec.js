@@ -36,8 +36,12 @@ describe('buildApolloClient', () => {
         });
 
         it('returns the supplied queries with introspection enabled', async () => {
-            const buildQueriesFromIntrospectionImpl = createSpy().andReturn(Promise.resolve({ introspectedQuery: '', overrideMe: 'from_instrospection' }));
-            const result = await getQueries(buildQueriesFromIntrospectionImpl)({ queries: { customQuery: '', overrideMe: 'from_customQueries' } });
+            const buildQueriesFromIntrospectionImpl = createSpy().andReturn(
+                Promise.resolve({ introspectedQuery: '', overrideMe: 'from_instrospection' }),
+            );
+            const result = await getQueries(buildQueriesFromIntrospectionImpl)({
+                queries: { customQuery: '', overrideMe: 'from_customQueries' },
+            });
             expect(result).toEqual({ introspectedQuery: '', customQuery: '', overrideMe: 'from_customQueries' });
         });
     });

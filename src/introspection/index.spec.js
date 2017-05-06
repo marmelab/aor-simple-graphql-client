@@ -3,27 +3,16 @@ import merge from 'lodash.merge';
 
 import { buildQueriesForResourceFactory, defaultOptions } from './';
 
-import {
-    GET_LIST,
-    GET_ONE,
-    CREATE,
-    DELETE,
-    UPDATE,
-} from '../constants';
+import { GET_LIST, GET_ONE, CREATE, DELETE, UPDATE } from '../constants';
 
 describe('buildQueriesForResource', () => {
     const fetchSchema = createSpy().andReturn('schema');
-    const listResourcesFromSchema = createSpy().andReturn([
-        { name: 'Post' },
-        { name: 'Order' },
-    ]);
+    const listResourcesFromSchema = createSpy().andReturn([{ name: 'Post' }, { name: 'Order' }]);
     const listQueriesFromSchema = createSpy().andReturn({ query: true });
     const listMutationsFromSchema = createSpy().andReturn({ mutation: true });
-    const buildQueriesForResource = createSpy().andCall(resource => (
-        resource.name === 'Post'
-        ? { [GET_LIST]: true, [GET_ONE]: true }
-        : { [GET_LIST]: true }
-    ));
+    const buildQueriesForResource = createSpy().andCall(
+        resource => (resource.name === 'Post' ? { [GET_LIST]: true, [GET_ONE]: true } : { [GET_LIST]: true }),
+    );
 
     it('calls fetchSchema with the client', () => {
         buildQueriesForResourceFactory(

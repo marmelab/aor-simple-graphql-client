@@ -1,9 +1,4 @@
-import {
-    GET_LIST,
-    GET_MANY,
-    GET_MANY_REFERENCE,
-    QUERY_TYPES,
-} from './constants';
+import { GET_LIST, GET_MANY, GET_MANY_REFERENCE, QUERY_TYPES } from './constants';
 
 /**
  * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
@@ -11,11 +6,10 @@ import {
  * @returns {Object} The key to look for in the response data, depending on the type
  *                   (this is the name of the operation defined in the graphql query or mutation)
  */
-const getApolloResultKey = (type, apolloParams) => (
+const getApolloResultKey = (type, apolloParams) =>
     QUERY_TYPES.includes(type)
-    ? apolloParams.query.definitions[0].selectionSet.selections[0].name.value
-    : apolloParams.mutation.definitions[0].selectionSet.selections[0].name.value
-);
+        ? apolloParams.query.definitions[0].selectionSet.selections[0].name.value
+        : apolloParams.mutation.definitions[0].selectionSet.selections[0].name.value;
 
 export const buildGetListErrorMessage = resource =>
     `The data returned by the graphql endpoint for the GET_LIST query on resource ${resource} does not contains a \`totalCount\` property which is needed to build the pagination. The query result must conform to this schema: \`{ totalCount: Int, items: [] }\``; // eslint-disable-line
@@ -33,26 +27,26 @@ export default (response, type, resource, apolloParams) => {
     const dataForType = data[dataKey];
 
     switch (type) {
-    case GET_LIST: {
-        if (typeof dataForType.totalCount !== 'number') {
-            throw new Error(buildGetListErrorMessage(resource));
-        }
-        return {
-            data: dataForType.items.map(x => x),
-            total: dataForType.totalCount,
-        };
-    }
-
-    case GET_MANY:
-    case GET_MANY_REFERENCE: {
-        if (dataForType.totalCount) {
-            return { data: dataForType.items.map(x => x) };
+        case GET_LIST: {
+            if (typeof dataForType.totalCount !== 'number') {
+                throw new Error(buildGetListErrorMessage(resource));
+            }
+            return {
+                data: dataForType.items.map(x => x),
+                total: dataForType.totalCount,
+            };
         }
 
-        return { data: dataForType };
-    }
+        case GET_MANY:
+        case GET_MANY_REFERENCE: {
+            if (dataForType.totalCount) {
+                return { data: dataForType.items.map(x => x) };
+            }
 
-    default:
-        return { data: dataForType };
+            return { data: dataForType };
+        }
+
+        default:
+            return { data: dataForType };
     }
 };

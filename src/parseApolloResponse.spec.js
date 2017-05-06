@@ -1,15 +1,7 @@
 import expect from 'expect';
 
 import parseApolloResponse, { buildGetListErrorMessage } from './parseApolloResponse';
-import {
-    GET_LIST,
-    GET_MANY,
-    GET_MANY_REFERENCE,
-    GET_ONE,
-    CREATE,
-    DELETE,
-    UPDATE,
-} from './constants';
+import { GET_LIST, GET_MANY, GET_MANY_REFERENCE, GET_ONE, CREATE, DELETE, UPDATE } from './constants';
 
 describe('parseApolloResponse', () => {
     it('returns an object with data and total keys for GET_LIST', () => {
@@ -26,11 +18,13 @@ describe('parseApolloResponse', () => {
 
         const apolloParams = {
             query: {
-                definitions: [{
-                    selectionSet: {
-                        selections: [{ name: { value: 'operationName' } }],
+                definitions: [
+                    {
+                        selectionSet: {
+                            selections: [{ name: { value: 'operationName' } }],
+                        },
                     },
-                }],
+                ],
             },
         };
 
@@ -50,16 +44,19 @@ describe('parseApolloResponse', () => {
         };
         const apolloParams = {
             query: {
-                definitions: [{
-                    selectionSet: {
-                        selections: [{ name: { value: 'operationName' } }],
+                definitions: [
+                    {
+                        selectionSet: {
+                            selections: [{ name: { value: 'operationName' } }],
+                        },
                     },
-                }],
+                ],
             },
         };
 
-        expect(() => parseApolloResponse(response, GET_LIST, 'Post', apolloParams))
-            .toThrow(buildGetListErrorMessage('Post'));
+        expect(() => parseApolloResponse(response, GET_LIST, 'Post', apolloParams)).toThrow(
+            buildGetListErrorMessage('Post'),
+        );
     });
 
     it('returns the reponse data for GET_ONE', () => {
@@ -72,11 +69,13 @@ describe('parseApolloResponse', () => {
         };
         const apolloParams = {
             query: {
-                definitions: [{
-                    selectionSet: {
-                        selections: [{ name: { value: 'operationName' } }],
+                definitions: [
+                    {
+                        selectionSet: {
+                            selections: [{ name: { value: 'operationName' } }],
+                        },
                     },
-                }],
+                ],
             },
         };
 
@@ -98,11 +97,13 @@ describe('parseApolloResponse', () => {
         };
         const apolloParams = {
             query: {
-                definitions: [{
-                    selectionSet: {
-                        selections: [{ name: { value: 'operationName' } }],
+                definitions: [
+                    {
+                        selectionSet: {
+                            selections: [{ name: { value: 'operationName' } }],
+                        },
                     },
-                }],
+                ],
             },
         };
 
@@ -124,11 +125,13 @@ describe('parseApolloResponse', () => {
         };
         const apolloParams = {
             query: {
-                definitions: [{
-                    selectionSet: {
-                        selections: [{ name: { value: 'operationName' } }],
+                definitions: [
+                    {
+                        selectionSet: {
+                            selections: [{ name: { value: 'operationName' } }],
+                        },
                     },
-                }],
+                ],
             },
         };
 
@@ -146,11 +149,13 @@ describe('parseApolloResponse', () => {
         };
         const apolloParams = {
             query: {
-                definitions: [{
-                    selectionSet: {
-                        selections: [{ name: { value: 'operationName' } }],
+                definitions: [
+                    {
+                        selectionSet: {
+                            selections: [{ name: { value: 'operationName' } }],
+                        },
                     },
-                }],
+                ],
             },
         };
 
@@ -172,11 +177,13 @@ describe('parseApolloResponse', () => {
         };
         const apolloParams = {
             query: {
-                definitions: [{
-                    selectionSet: {
-                        selections: [{ name: { value: 'operationName' } }],
+                definitions: [
+                    {
+                        selectionSet: {
+                            selections: [{ name: { value: 'operationName' } }],
+                        },
                     },
-                }],
+                ],
             },
         };
 
@@ -193,11 +200,13 @@ describe('parseApolloResponse', () => {
         };
         const apolloParams = {
             mutation: {
-                definitions: [{
-                    selectionSet: {
-                        selections: [{ name: { value: 'operationName' } }],
+                definitions: [
+                    {
+                        selectionSet: {
+                            selections: [{ name: { value: 'operationName' } }],
+                        },
                     },
-                }],
+                ],
             },
         };
 
@@ -214,11 +223,13 @@ describe('parseApolloResponse', () => {
         };
         const apolloParams = {
             mutation: {
-                definitions: [{
-                    selectionSet: {
-                        selections: [{ name: { value: 'operationName' } }],
+                definitions: [
+                    {
+                        selectionSet: {
+                            selections: [{ name: { value: 'operationName' } }],
+                        },
                     },
-                }],
+                ],
             },
         };
 
@@ -235,11 +246,13 @@ describe('parseApolloResponse', () => {
         };
         const apolloParams = {
             mutation: {
-                definitions: [{
-                    selectionSet: {
-                        selections: [{ name: { value: 'operationName' } }],
+                definitions: [
+                    {
+                        selectionSet: {
+                            selections: [{ name: { value: 'operationName' } }],
+                        },
                     },
-                }],
+                ],
             },
         };
 
