@@ -22,20 +22,22 @@ const knownApolloOptions = [
 /**
  * Get options for calling ApolloClient.watchQuery.
  * @param apolloWatchOptions {Object} Options supplied by user
- * @param action {Object} Action from admin-on-rest
+ * @param fetchType {String} The fetch type from admin-on-rest (GET_LIST, GET_ONE, etc.)
+ * @param resource {String} The resource from admin-on-rest
+ * @param params {Object} The paremeters for the query from admin-on-rest
  */
-export default (apolloWatchOptions, { meta: { fetch, resource } }) => {
+export default (apolloWatchOptions, fetchType, resource, params) => {
     const options = [];
-    let tmpOptions = getOrCall(apolloWatchOptions, resource, fetch);
+    let tmpOptions = getOrCall(apolloWatchOptions, resource, fetchType, params);
     options.push(tmpOptions);
 
     if (tmpOptions) {
         options.push(tmpOptions);
-        tmpOptions = getOrCall(tmpOptions[resource], fetch);
+        tmpOptions = getOrCall(tmpOptions[resource], fetchType, params);
 
         if (tmpOptions) {
             options.push(tmpOptions);
-            tmpOptions = getOrCall(tmpOptions[fetch]);
+            tmpOptions = getOrCall(tmpOptions[fetchType], params);
 
             if (tmpOptions) {
                 options.push(tmpOptions);

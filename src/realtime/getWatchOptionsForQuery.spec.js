@@ -4,10 +4,12 @@ import merge from 'lodash.merge';
 import getWatchOptionsForQuery, { defaultWatchOptions } from './getWatchOptionsForQuery';
 
 describe('getWatchOptionsForQuery', () => {
-    const action = { meta: { resource: 'Post', fetch: 'GET_LIST' } };
+    const fetchType = 'GET_LIST';
+    const resource = 'Post';
+    const params = {};
 
     it('returns the default options when no options were specified', () => {
-        const options = getWatchOptionsForQuery(undefined, action);
+        const options = getWatchOptionsForQuery(undefined, fetchType, resource, params);
 
         expect(options).toEqual(defaultWatchOptions);
     });
@@ -17,7 +19,7 @@ describe('getWatchOptionsForQuery', () => {
             pollInterval: 10000,
             noFetch: true,
         };
-        const options = getWatchOptionsForQuery(userOptions, action);
+        const options = getWatchOptionsForQuery(userOptions, fetchType, resource, params);
 
         expect(options).toEqual(merge({}, defaultWatchOptions, userOptions));
     });
@@ -35,7 +37,7 @@ describe('getWatchOptionsForQuery', () => {
             ...rootOptions,
             Post: postOptions,
         };
-        const options = getWatchOptionsForQuery(userOptions, action);
+        const options = getWatchOptionsForQuery(userOptions, fetchType, resource, params);
 
         expect(options).toEqual(merge({}, defaultWatchOptions, rootOptions, postOptions));
     });
@@ -60,7 +62,7 @@ describe('getWatchOptionsForQuery', () => {
                 GET_LIST: verbOptions,
             },
         };
-        const options = getWatchOptionsForQuery(userOptions, action);
+        const options = getWatchOptionsForQuery(userOptions, fetchType, resource, params);
 
         expect(options).toEqual(merge({}, defaultWatchOptions, rootOptions, postOptions, verbOptions));
     });
