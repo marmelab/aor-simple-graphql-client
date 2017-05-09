@@ -2,31 +2,41 @@ import { TypeKind } from 'graphql';
 import isNotGraphqlPrivateType from '../isNotGraphqlPrivateType';
 
 export const isSubObject = field => {
-    if (
+    return (
         field.type.kind === TypeKind.OBJECT ||
         (field.type.kind === TypeKind.LIST &&
             (field.type.ofType.kind === TypeKind.OBJECT || field.type.ofType.kind === TypeKind.LIST)) ||
         (field.type.kind === TypeKind.NON_NULL &&
             (field.type.ofType.kind === TypeKind.OBJECT || field.type.ofType.kind === TypeKind.LIST))
-    ) {
-        return true;
-    }
-
-    return false;
+    );
 };
 
 const isExcludedFieldFactory = (resource, verbType, excludeFields) => field => {
-    if (excludeFields) {
-        if (Array.isArray(excludeFields)) {
-            return excludeFields.includes(field.name);
-        }
-
-        if (typeof excludeFields === 'function') {
-            return excludeFields(field, resource, verbType);
-        }
+    if (!excludeFields) {
+        return false;
     }
 
-    return false;
+    if (Array.isArray(excludeFields)) {
+        return excludeFields.includes(field.name);
+    }
+
+    if (typeof excludeFields === 'function') {
+        return excludeFields(field, resource, verbType);
+    }
+};
+
+const getType = field => {
+    if (field.type.kind === TypeKind.LIST || field.type.kind === TypeKind.NON_NULL) {
+        return field.type.ofType;
+    }
+
+    return field.type;
+};
+
+const isResource = (field, resources) => {
+    const type = getType(field);
+
+    return resources.some(r => r.name === type.name);
 };
 
 export const buildFieldListFromList = (resource, fields, verbType, resources, types, options) => {
@@ -35,22 +45,13 @@ export const buildFieldListFromList = (resource, fields, verbType, resources, ty
 
     return fields
         .filter(isNotGraphqlPrivateType)
+        .filter(field => !isExcludedField(field))
+        .filter(field => !ignoreSubObjects || isSubObject(field, types))
         .map(field => {
-            if (isExcludedField(field)) {
-                return false;
-            }
-
-            if (ignoreSubObjects && isSubObject(field, types)) {
-                return false;
-            }
-
             if (isSubObject(field, types)) {
-                let typeToCheck = field.type;
-                if (field.type.kind === TypeKind.LIST || field.type.kind === TypeKind.NON_NULL) {
-                    typeToCheck = field.type.ofType;
-                }
+                let typeToCheck = getType(field);
 
-                if (!ignoreSubResources || !resources.some(r => r.name === typeToCheck.name)) {
+                if (!ignoreSubResources || !isResource(field, resources)) {
                     const type = types.find(t => t.name === typeToCheck.name);
 
                     if (type) {
