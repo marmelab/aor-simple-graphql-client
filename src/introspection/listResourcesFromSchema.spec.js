@@ -25,10 +25,7 @@ describe('listResourcesFromSchema', () => {
     ];
 
     it('filters out private types and GraphQL reserved types', () => {
-        expect(listResourcesFromSchema({ types })).toEqual([
-            includedType,
-            excludedType,
-        ]);
+        expect(listResourcesFromSchema({ types })).toEqual([includedType, excludedType]);
     });
 
     it('calls filterWithIncludeExclude with correct options', () => {

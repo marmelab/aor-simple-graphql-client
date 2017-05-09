@@ -3,7 +3,7 @@ import isNotGraphqlPrivateType from '../isNotGraphqlPrivateType';
 export default (resource, type, { excludeFields }) =>
     resource.fields
         .filter(isNotGraphqlPrivateType)
-        .filter((field) => {
+        .filter(field => {
             if (excludeFields) {
                 if (Array.isArray(excludeFields)) {
                     return !excludeFields.includes(field.name);
@@ -16,4 +16,5 @@ export default (resource, type, { excludeFields }) =>
 
             return true;
         })
-        .map(f => f.name).join(' ');
+        .map(f => f.name)
+        .join(' ');

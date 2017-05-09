@@ -2,15 +2,7 @@ import expect, { createSpy } from 'expect';
 
 import getApolloPromise from './getApolloPromise';
 
-import {
-    GET_LIST,
-    GET_MANY,
-    GET_MANY_REFERENCE,
-    GET_ONE,
-    CREATE,
-    DELETE,
-    UPDATE,
-} from './constants';
+import { GET_LIST, GET_MANY, GET_MANY_REFERENCE, GET_ONE, CREATE, DELETE, UPDATE } from './constants';
 
 describe('getApolloPromise', () => {
     const queryPromise = 'queryPromise';

@@ -43,7 +43,5 @@ export default (apolloWatchOptions, { meta: { fetch, resource } }) => {
         }
     }
 
-    return options.reduce((final, opts) =>
-        merge({}, final, pick(opts, knownApolloOptions))
-    , defaultWatchOptions);
+    return options.reduce((final, opts) => merge({}, final, pick(opts, knownApolloOptions)), defaultWatchOptions);
 };

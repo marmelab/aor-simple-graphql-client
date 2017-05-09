@@ -2,15 +2,7 @@ import expect from 'expect';
 
 import buildApolloParams from './buildApolloParams';
 
-import {
-    GET_LIST,
-    GET_MANY,
-    GET_MANY_REFERENCE,
-    GET_ONE,
-    CREATE,
-    DELETE,
-    UPDATE,
-} from './constants';
+import { GET_LIST, GET_MANY, GET_MANY_REFERENCE, GET_ONE, CREATE, DELETE, UPDATE } from './constants';
 
 describe('buildApolloParams', () => {
     const queries = {
@@ -50,12 +42,17 @@ describe('buildApolloParams', () => {
             ids: ['comment1', 'comment2'],
         };
 
-        const apolloParams = buildApolloParams({
-            Post: {
-                ...queries.Post,
-                [GET_MANY]: 'GET_MANY post',
+        const apolloParams = buildApolloParams(
+            {
+                Post: {
+                    ...queries.Post,
+                    [GET_MANY]: 'GET_MANY post',
+                },
             },
-        }, GET_MANY, resource, params);
+            GET_MANY,
+            resource,
+            params,
+        );
 
         expect(apolloParams).toEqual({
             query: 'GET_MANY post',
@@ -87,12 +84,17 @@ describe('buildApolloParams', () => {
             id: 'post1',
         };
 
-        const apolloParams = buildApolloParams({
-            Post: {
-                ...queries.Post,
-                [GET_MANY_REFERENCE]: 'GET_MANY_REFERENCE post',
+        const apolloParams = buildApolloParams(
+            {
+                Post: {
+                    ...queries.Post,
+                    [GET_MANY_REFERENCE]: 'GET_MANY_REFERENCE post',
+                },
             },
-        }, GET_MANY_REFERENCE, resource, params);
+            GET_MANY_REFERENCE,
+            resource,
+            params,
+        );
 
         expect(apolloParams).toEqual({
             query: 'GET_MANY_REFERENCE post',

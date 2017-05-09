@@ -11,18 +11,12 @@ describe('listQueriesFromSchema', () => {
         {
             name: 'Query',
             kind: 'OBJECT',
-            fields: [
-                includedField,
-                excludedField,
-            ],
+            fields: [includedField, excludedField],
         },
     ];
 
     it('returns the query fields', () => {
-        expect(listQueriesFromSchema({ types })).toEqual([
-            includedField,
-            excludedField,
-        ]);
+        expect(listQueriesFromSchema({ types })).toEqual([includedField, excludedField]);
     });
 
     it('calls filterWithIncludeExclude with correct options', () => {

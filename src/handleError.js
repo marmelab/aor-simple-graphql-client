@@ -1,4 +1,4 @@
-export default (error) => {
+export default error => {
     if (error.graphQLErrors && error.graphQLErrors.length) {
         throw new Error(error.graphQLErrors[0].message);
     }

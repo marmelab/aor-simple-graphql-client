@@ -16,8 +16,7 @@ describe('fetchSchema', () => {
     });
 
     it('returns the schema from the response', () =>
-        fetchSchema(client).then((schema) => {
+        fetchSchema(client).then(schema => {
             expect(schema).toEqual('a graphql schema');
-        }),
-    );
+        }));
 });

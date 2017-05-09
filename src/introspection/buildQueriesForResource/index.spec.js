@@ -3,13 +3,7 @@ import gql from 'graphql-tag';
 
 import { buildQueriesForResourceFactory, defaultTypes } from './';
 
-import {
-    CREATE,
-    DELETE,
-    GET_LIST,
-    GET_ONE,
-    UPDATE,
-} from '../../constants';
+import { CREATE, DELETE, GET_LIST, GET_ONE, UPDATE } from '../../constants';
 
 describe('buildQueriesForResource', () => {
     const types = {

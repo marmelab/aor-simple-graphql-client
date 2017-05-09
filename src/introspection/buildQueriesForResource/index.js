@@ -1,11 +1,5 @@
 import gql from 'graphql-tag';
-import {
-    CREATE,
-    DELETE,
-    GET_LIST,
-    GET_ONE,
-    UPDATE,
-} from '../../constants';
+import { CREATE, DELETE, GET_LIST, GET_ONE, UPDATE } from '../../constants';
 
 import buildQuery from './buildQuery';
 
@@ -61,13 +55,14 @@ export const defaultTypes = {
     },
 };
 
-
-export const buildQueriesForResourceFactory = buildQueryImpl => types =>
-    (resource, queriesAndMutations, options) =>
-        Object.keys(types).reduce((result, type) => ({
+export const buildQueriesForResourceFactory = buildQueryImpl => types => (resource, queriesAndMutations, options) =>
+    Object.keys(types).reduce(
+        (result, type) => ({
             ...result,
             [type]: buildQueryImpl(resource, types[type], queriesAndMutations, options),
-        }), {});
+        }),
+        {},
+    );
 
 export default (resource, queriesAndMutations, options) =>
     buildQueriesForResourceFactory(buildQuery)(defaultTypes)(resource, queriesAndMutations, options);

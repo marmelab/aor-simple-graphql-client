@@ -11,25 +11,25 @@ describe('listMutationsFromSchema', () => {
         {
             name: 'Mutation',
             kind: 'OBJECT',
-            fields: [
-                includedField,
-                excludedField,
-            ],
+            fields: [includedField, excludedField],
         },
     ];
 
     it('returns the mutation fields', () => {
-        expect(listMutationsFromSchema({ types })).toEqual([
-            includedField,
-            excludedField,
-        ]);
+        expect(listMutationsFromSchema({ types })).toEqual([includedField, excludedField]);
     });
 
     it('calls filterWithIncludeExclude with correct options', () => {
         const filterWithIncludeExclude = createSpy().andReturn(() => true);
         const listMutationsFromSchemaTest = listMutationsFromSchemaFactory(filterWithIncludeExclude);
-        listMutationsFromSchemaTest({ types }, { includeMutations: 'includeMutations', excludeMutations: 'excludeMutations' });
+        listMutationsFromSchemaTest(
+            { types },
+            { includeMutations: 'includeMutations', excludeMutations: 'excludeMutations' },
+        );
 
-        expect(filterWithIncludeExclude).toHaveBeenCalledWith({ include: 'includeMutations', exclude: 'excludeMutations' });
+        expect(filterWithIncludeExclude).toHaveBeenCalledWith({
+            include: 'includeMutations',
+            exclude: 'excludeMutations',
+        });
     });
 });
