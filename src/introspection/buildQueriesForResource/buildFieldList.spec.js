@@ -14,13 +14,13 @@ describe('buildFieldList', () => {
         ],
     };
 
-    it('only filter private graphql fields without options.excludeFields', () => {
+    it('only filters private graphql fields without options.excludeFields', () => {
         expect(buildFieldList(resource, 'a_type', [], [], {})).toEqual(
             'publicField1 publicField2 publicField3 publicField4',
         );
     });
 
-    it('also filter excluded fields with options.excludeFields being an array', () => {
+    it('also filters excluded fields with options.excludeFields being an array', () => {
         expect(buildFieldList(resource, 'a_type', [], [], { excludeFields: ['publicField2'] })).toEqual(
             'publicField1 publicField3 publicField4',
         );

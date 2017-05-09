@@ -46,7 +46,7 @@ export const buildFieldListFromList = (resource, fields, verbType, resources, ty
     return fields
         .filter(isNotGraphqlPrivateType)
         .filter(field => !isExcludedField(field))
-        .filter(field => !ignoreSubObjects || isSubObject(field, types))
+        .filter(field => (ignoreSubObjects && !isSubObject(field, types)) || !ignoreSubObjects)
         .map(field => {
             if (isSubObject(field, types)) {
                 let typeToCheck = getType(field);
