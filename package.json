@@ -1,10 +1,12 @@
 {
   "name": "aor-simple-graphql-client",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A simple GraphQL client for admin-on-rest",
   "main": "./lib/index.js",
   "repository": "https://github.com/marmelab/aor-simple-graphql-client.git",
-  "authors": ["Gildas Garcia"],
+  "authors": [
+    "Gildas Garcia"
+  ],
   "license": "MIT",
   "scripts": {
     "build": "make build",
