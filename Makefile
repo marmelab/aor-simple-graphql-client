@@ -12,16 +12,14 @@ clean: ## Clean up the lib folder for building
 build: clean ## Compile ES6 files to JS
 	@NODE_ENV=production ./node_modules/.bin/babel \
 		--out-dir=lib \
-		--stage=0 \
 		--ignore=*.spec.js \
 		./src
 
-watch: ## Continuously compile ES6 files to JS
+watch: ## continuously compile ES6 files to JS
 	@NODE_ENV=production ./node_modules/.bin/babel \
 		--out-dir=lib \
-		--stage=0 \
-		--ignore=*.spec.js \
-		--watch \
+		--ignore='*.spec.js' \
+		--watch
 		./src
 
 test: ## Launch unit tests

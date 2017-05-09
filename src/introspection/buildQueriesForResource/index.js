@@ -3,7 +3,7 @@ import { CREATE, DELETE, GET_LIST, GET_ONE, UPDATE } from '../../constants';
 
 import buildQuery from './buildQuery';
 
-export const defaultTypes = {
+export const defaultVerbTypes = {
     [GET_LIST]: {
         name: GET_LIST,
         returnsFields: true,
@@ -55,14 +55,33 @@ export const defaultTypes = {
     },
 };
 
-export const buildQueriesForResourceFactory = buildQueryImpl => types => (resource, queriesAndMutations, options) =>
-    Object.keys(types).reduce(
-        (result, type) => ({
+export const buildQueriesForResourceFactory = buildQueryImpl => verbTypes => (
+    resource,
+    queriesAndMutations,
+    resourceTypes,
+    types,
+    options,
+) =>
+    Object.keys(verbTypes).reduce(
+        (result, verbType) => ({
             ...result,
-            [type]: buildQueryImpl(resource, types[type], queriesAndMutations, options),
+            [verbType]: buildQueryImpl(
+                resource,
+                verbTypes[verbType],
+                queriesAndMutations,
+                resourceTypes,
+                types,
+                options,
+            ),
         }),
         {},
     );
 
-export default (resource, queriesAndMutations, options) =>
-    buildQueriesForResourceFactory(buildQuery)(defaultTypes)(resource, queriesAndMutations, options);
+export default (resource, queriesAndMutations, resourceTypes, types, options) =>
+    buildQueriesForResourceFactory(buildQuery)(defaultVerbTypes)(
+        resource,
+        queriesAndMutations,
+        resourceTypes,
+        types,
+        options,
+    );

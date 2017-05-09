@@ -1,22 +1,20 @@
 import merge from 'lodash.merge';
-import pickBy from 'lodash.pickby';
 import pluralize from 'pluralize';
 
 import fetchSchema from './fetchSchema';
-
 import buildQueriesForResource from './buildQueriesForResource';
 import listMutationsFromSchema from './listMutationsFromSchema';
 import listResourcesFromSchema from './listResourcesFromSchema';
 import listQueriesFromSchema from './listQueriesFromSchema';
-
 import { GET_LIST, GET_ONE, CREATE, DELETE, UPDATE } from '../constants';
 
 const REQUIRED_RESOURCE_KEYS = [GET_LIST, GET_ONE];
 
-const isValidResource = value =>
-    REQUIRED_RESOURCE_KEYS.every(requiredKey =>
-        Object.keys(value).some(resourceKey => resourceKey === requiredKey && !!value[resourceKey]),
-    );
+const isValidResource = (queries, templates) => resource => {
+    const requiredQueries = REQUIRED_RESOURCE_KEYS.map(key => templates[key](resource));
+
+    return requiredQueries.every(requiredQuery => queries.some(query => query.name === requiredQuery));
+};
 
 export const defaultOptions = {
     includeTypes: null,
@@ -26,6 +24,7 @@ export const defaultOptions = {
     includeMutations: null,
     excludeMutations: null,
     excludeFields: null,
+    ignoreSubObjects: false,
     templates: {
         [GET_LIST]: resourceType => `getPageOf${pluralize(resourceType.name)}`,
         [GET_ONE]: resourceType => `get${resourceType.name}`,
@@ -53,21 +52,24 @@ export const buildQueriesForResourceFactory = (
     }
 
     const schema = await fetchSchemaImpl(options.client);
-    const resourceTypes = listResourcesFromSchemaImpl(schema, options);
     const queries = listQueriesFromSchemaImpl(schema, options);
     const mutations = listMutationsFromSchemaImpl(schema, options);
+    const types = listResourcesFromSchemaImpl(schema, options);
+    const resourceTypes = types.filter(isValidResource(queries, options.templates));
 
-    const resources = resourceTypes.reduce(
+    return resourceTypes.reduce(
         (queriesByResource, resourceType) => ({
             ...queriesByResource,
-            [resourceType.name]: buildQueriesForResourceImpl(resourceType, [...queries, ...mutations], options),
+            [resourceType.name]: buildQueriesForResourceImpl(
+                resourceType,
+                [...queries, ...mutations],
+                resourceTypes,
+                types,
+                options,
+            ),
         }),
         {},
     );
-
-    const result = pickBy(resources, isValidResource);
-
-    return result;
 };
 
 export default buildQueriesForResourceFactory(
