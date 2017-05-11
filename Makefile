@@ -16,7 +16,7 @@ build: clean ## Compile ES6 files to JS
 		./src
 
 watch: ## continuously compile ES6 files to JS
-	NODE_ENV=production ./node_modules/.bin/babel \
+	@NODE_ENV=production ./node_modules/.bin/babel \
 		--out-dir=lib \
 		--ignore='*.spec.js' \
 		--watch \

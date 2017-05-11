@@ -11,7 +11,7 @@ The source code for this demo is available at https://github.com/marmelab/admin-
 - [Installation](#installation)
 - [Usage](#installation)
 - [Options](#options)
-- [Realtime updates](#realtime_updates)
+- [Realtime updates](#realtime-updates)
 
 ## About GraphQL and Apollo
 
