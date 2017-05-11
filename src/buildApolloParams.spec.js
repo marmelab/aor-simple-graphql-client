@@ -1,4 +1,4 @@
-import expect from 'expect';
+import expect, { createSpy } from 'expect';
 
 import buildApolloParams from './buildApolloParams';
 
@@ -9,12 +9,37 @@ describe('buildApolloParams', () => {
         Post: {
             [GET_LIST]: 'GET_LIST post',
             [GET_ONE]: 'GET_ONE post',
+            [GET_MANY]: 'GET_MANY post',
+            [GET_MANY_REFERENCE]: 'GET_MANY_REFERENCE post',
             [DELETE]: 'DELETE post',
             [UPDATE]: 'UPDATE post',
             [CREATE]: 'CREATE post',
         },
     };
     const resource = 'Post';
+    const flavor = {
+        [GET_LIST]: {
+            getParameters: createSpy().andReturn('GET_LIST parameters'),
+        },
+        [GET_MANY]: {
+            getParameters: createSpy().andReturn('GET_MANY parameters'),
+        },
+        [GET_MANY_REFERENCE]: {
+            getParameters: createSpy().andReturn('GET_MANY_REFERENCE parameters'),
+        },
+        [GET_ONE]: {
+            getParameters: createSpy().andReturn('GET_ONE parameters'),
+        },
+        [CREATE]: {
+            getParameters: createSpy().andReturn('CREATE parameters'),
+        },
+        [DELETE]: {
+            getParameters: createSpy().andReturn('DELETE parameters'),
+        },
+        [UPDATE]: {
+            getParameters: createSpy().andReturn('UPDATE parameters'),
+        },
+    };
 
     it('it returns params for GET_LIST', () => {
         const params = {
@@ -23,101 +48,44 @@ describe('buildApolloParams', () => {
             sort: { field: 'name', order: 'DESC' },
         };
 
-        const apolloParams = buildApolloParams(queries, GET_LIST, resource, params);
+        const apolloParams = buildApolloParams(flavor, queries, GET_LIST, resource, params);
+
+        expect(flavor[GET_LIST].getParameters).toHaveBeenCalledWith(params, resource);
 
         expect(apolloParams).toEqual({
             query: queries[resource][GET_LIST],
-            variables: {
-                filter: JSON.stringify('a filter'),
-                page: 42,
-                perPage: 100,
-                sortField: 'name',
-                sortOrder: 'DESC',
-            },
+            variables: 'GET_LIST parameters',
         });
     });
 
-    it('it returns params for GET_MANY using query defined by GET_MANY', () => {
+    it('it returns params for GET_MANY', () => {
         const params = {
             ids: ['comment1', 'comment2'],
         };
 
-        const apolloParams = buildApolloParams(
-            {
-                Post: {
-                    ...queries.Post,
-                    [GET_MANY]: 'GET_MANY post',
-                },
-            },
-            GET_MANY,
-            resource,
-            params,
-        );
+        const apolloParams = buildApolloParams(flavor, queries, GET_MANY, resource, params);
+
+        expect(flavor[GET_MANY].getParameters).toHaveBeenCalledWith(params, resource);
 
         expect(apolloParams).toEqual({
-            query: 'GET_MANY post',
-            variables: {
-                filter: JSON.stringify({ ids: params.ids }),
-            },
+            query: queries[resource][GET_MANY],
+            variables: 'GET_MANY parameters',
         });
     });
 
-    it('it returns params for GET_MANY using query defined by GET_LIST if GET_MANY query is not defined', () => {
-        const params = {
-            ids: ['comment1', 'comment2'],
-        };
-
-        const apolloParams = buildApolloParams(queries, GET_MANY, resource, params);
-
-        expect(apolloParams).toEqual({
-            query: queries[resource][GET_LIST],
-            variables: {
-                filter: JSON.stringify({ ids: params.ids }),
-                perPage: 1000,
-            },
-        });
-    });
-
-    it('it returns params for GET_MANY_REFERENCE using query defined by GET_MANY_REFERENCE', () => {
+    it('it returns params for GET_MANY_REFERENCE', () => {
         const params = {
             target: 'Post',
             id: 'post1',
         };
 
-        const apolloParams = buildApolloParams(
-            {
-                Post: {
-                    ...queries.Post,
-                    [GET_MANY_REFERENCE]: 'GET_MANY_REFERENCE post',
-                },
-            },
-            GET_MANY_REFERENCE,
-            resource,
-            params,
-        );
+        const apolloParams = buildApolloParams(flavor, queries, GET_MANY_REFERENCE, resource, params);
+
+        expect(flavor[GET_MANY_REFERENCE].getParameters).toHaveBeenCalledWith(params, resource);
 
         expect(apolloParams).toEqual({
-            query: 'GET_MANY_REFERENCE post',
-            variables: {
-                filter: JSON.stringify({ Post: 'post1' }),
-            },
-        });
-    });
-
-    it('it returns params for GET_MANY_REFERENCE using query defined by GET_LIST if GET_MANY_REFERENCE query is not defined', () => {
-        const params = {
-            target: 'Post',
-            id: 'post1',
-        };
-
-        const apolloParams = buildApolloParams(queries, GET_MANY_REFERENCE, resource, params);
-
-        expect(apolloParams).toEqual({
-            query: queries[resource][GET_LIST],
-            variables: {
-                filter: JSON.stringify({ Post: 'post1' }),
-                perPage: 1000,
-            },
+            query: queries[resource][GET_MANY_REFERENCE],
+            variables: 'GET_MANY_REFERENCE parameters',
         });
     });
 
@@ -126,13 +94,13 @@ describe('buildApolloParams', () => {
             id: 'post1',
         };
 
-        const apolloParams = buildApolloParams(queries, GET_ONE, resource, params);
+        const apolloParams = buildApolloParams(flavor, queries, GET_ONE, resource, params);
+
+        expect(flavor[GET_ONE].getParameters).toHaveBeenCalledWith(params, resource);
 
         expect(apolloParams).toEqual({
             query: queries[resource][GET_ONE],
-            variables: {
-                id: 'post1',
-            },
+            variables: 'GET_ONE parameters',
         });
     });
 
@@ -143,15 +111,13 @@ describe('buildApolloParams', () => {
             },
         };
 
-        const apolloParams = buildApolloParams(queries, CREATE, resource, params);
+        const apolloParams = buildApolloParams(flavor, queries, CREATE, resource, params);
+
+        expect(flavor[CREATE].getParameters).toHaveBeenCalledWith(params, resource);
 
         expect(apolloParams).toEqual({
             mutation: queries[resource][CREATE],
-            variables: {
-                data: JSON.stringify({
-                    title: 'Hello world',
-                }),
-            },
+            variables: 'CREATE parameters',
         });
     });
 
@@ -163,16 +129,13 @@ describe('buildApolloParams', () => {
             },
         };
 
-        const apolloParams = buildApolloParams(queries, UPDATE, resource, params);
+        const apolloParams = buildApolloParams(flavor, queries, UPDATE, resource, params);
+
+        expect(flavor[UPDATE].getParameters).toHaveBeenCalledWith(params, resource);
 
         expect(apolloParams).toEqual({
             mutation: queries[resource][UPDATE],
-            variables: {
-                data: JSON.stringify({
-                    id: 'post1',
-                    title: 'Hello world',
-                }),
-            },
+            variables: 'UPDATE parameters',
         });
     });
 
@@ -181,13 +144,13 @@ describe('buildApolloParams', () => {
             id: 'post1',
         };
 
-        const apolloParams = buildApolloParams(queries, DELETE, resource, params);
+        const apolloParams = buildApolloParams(flavor, queries, DELETE, resource, params);
+
+        expect(flavor[DELETE].getParameters).toHaveBeenCalledWith(params, resource);
 
         expect(apolloParams).toEqual({
             mutation: queries[resource][DELETE],
-            variables: {
-                id: 'post1',
-            },
+            variables: 'DELETE parameters',
         });
     });
 
@@ -196,6 +159,6 @@ describe('buildApolloParams', () => {
             id: 'post1',
         };
 
-        expect(() => buildApolloParams(queries, 'FOO', resource, params)).toThrow();
+        expect(() => buildApolloParams(flavor, queries, 'FOO', resource, params)).toThrow();
     });
 });

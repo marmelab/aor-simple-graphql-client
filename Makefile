@@ -19,7 +19,7 @@ watch: ## continuously compile ES6 files to JS
 	@NODE_ENV=production ./node_modules/.bin/babel \
 		--out-dir=lib \
 		--ignore='*.spec.js' \
-		--watch
+		--watch \
 		./src
 
 test: ## Launch unit tests

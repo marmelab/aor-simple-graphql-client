@@ -6,7 +6,7 @@ import { GET_LIST, GET_ONE, GET_MANY, GET_MANY_REFERENCE, UPDATE, CREATE, DELETE
  * @param {Object} params The REST request params, depending on the type
  * @returns {Object} apolloParams An object passed to either apolloClient.query or apolloClient.mutate
  */
-export default (queries, type, resource, params) => {
+export default (flavor, queries, type, resource, params) => {
     const resourceQueries = queries[resource];
 
     if (!resourceQueries) {
@@ -20,78 +20,46 @@ export default (queries, type, resource, params) => {
         case GET_LIST: {
             return {
                 query: resourceQueries[GET_LIST],
-                variables: {
-                    filter: JSON.stringify(params.filter),
-                    page: params.pagination.page - 1,
-                    perPage: params.pagination.perPage,
-                    sortField: params.sort.field,
-                    sortOrder: params.sort.order,
-                },
+                variables: flavor[GET_LIST].getParameters(params, resource),
             };
         }
 
         case GET_ONE:
             return {
                 query: resourceQueries[GET_ONE],
-                variables: {
-                    id: params.id,
-                },
+                variables: flavor[GET_ONE].getParameters(params, resource),
             };
 
         case GET_MANY: {
-            let variables = {
-                filter: JSON.stringify({ ids: params.ids }),
-            };
-
-            if (!resourceQueries[GET_MANY]) {
-                variables = {
-                    ...variables,
-                    perPage: 1000,
-                };
-            }
-
             return {
-                query: resourceQueries[GET_MANY] || resourceQueries[GET_LIST],
-                variables,
+                query: resourceQueries[GET_MANY],
+                variables: flavor[GET_MANY].getParameters(params, resource),
             };
         }
 
         case GET_MANY_REFERENCE: {
-            let variables = {
-                filter: JSON.stringify({ [params.target]: params.id }),
-            };
-
-            if (!resourceQueries[GET_MANY_REFERENCE]) {
-                variables = {
-                    ...variables,
-                    perPage: 1000,
-                };
-            }
-
             return {
-                query: resourceQueries[GET_MANY_REFERENCE] || resourceQueries[GET_LIST],
-                variables,
+                query: resourceQueries[GET_MANY_REFERENCE],
+                variables: flavor[GET_MANY_REFERENCE].getParameters(params, resource),
             };
         }
 
         case UPDATE:
             return {
                 mutation: resourceQueries[UPDATE],
-                variables: { data: JSON.stringify(params.data) },
+                variables: flavor[UPDATE].getParameters(params, resource),
             };
 
         case CREATE:
             return {
                 mutation: resourceQueries[CREATE],
-                variables: { data: JSON.stringify(params.data) },
+                variables: flavor[CREATE].getParameters(params, resource),
             };
 
         case DELETE:
             return {
                 mutation: resourceQueries[DELETE],
-                variables: {
-                    id: params.id,
-                },
+                variables: flavor[DELETE].getParameters(params, resource),
             };
 
         default:

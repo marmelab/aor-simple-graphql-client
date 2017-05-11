@@ -8,6 +8,11 @@ built with [Apollo](http://www.apollodata.com/)
 A version of the `admin-on-rest` demo using this client is available at https://marmelab.com/admin-on-rest-graphql-demo.<br>
 The source code for this demo is available at https://github.com/marmelab/admin-on-rest-graphql-demo.
 
+- [Installation](#installation)
+- [Usage](#installation)
+- [Options](#options)
+- [Realtime updates](#realtime-updates)
+
 ## About GraphQL and Apollo
 
 This library is meant to be used with Apollo on the **client** side but
@@ -157,6 +162,45 @@ Or supply your client directly with:
 buildApolloClient({ client: myClient });
 ```
 
+### GraphQL flavor
+
+A flavor act as the translator between Admin-on-rest requests and your GraphQL queries and mutations.
+
+This is useful if you want more control over which paramaters are sent from Admin-on-rest to your GraphQL backend, and how they are sent.
+
+A flavor is an object with a key for each rest action defined by Admin-on-rest: `GET_ONE`, `GET_LIST`, `GET_MANY`, `GET_MANY_REFERENCE`, `CREATE`, `UPDATE` and `DELETE`.
+
+For each of these actions, it defines:
+
+- how the name of the operation (query or mutation) can be inferred during introspection
+- how the query will be generated through introspection
+- how parameters are translated from Admin-on-rest to Apollo
+- how the query results from Apollo to Admin-on-rest are parsed
+
+For example, this is the `GET_LIST` definition in the [default](https://github.com/marmelab/aor-simple-graphql-client/tree/master/src/flavors/default.js) flavor:
+
+```js
+export default {
+    [GET_LIST]: {
+        operationName: resourceType => `getPageOf${pluralize(resourceType.name)}`,
+        getParameters: params => ({
+            filter: JSON.stringify(params.filter),
+            page: params.pagination.page - 1,
+            perPage: params.pagination.perPage,
+            sortField: params.sort.field,
+            sortOrder: params.sort.order,
+        }),
+    },
+    ...
+};
+```
+
+To define a custom GraphQL flavor, pass it in the options:
+
+```js
+buildApolloClient({ flavor: myGraphCoolFlavor });
+```
+
 ### Customize the introspection
 
 These are the default options for introspection:
@@ -172,15 +216,6 @@ const introspectionOptions = {
     excludeFields: null, // Either an array of fields to exclude or a function which will be called with each field discovered through introspection on a specific object (more details below)
     ignoreSubObjects: true, // If true, introspection will ignore sub objects AND sub resources from the returned fields (more details below)
     ignoreSubResources: true, // If true and ignoreSubObjects is false, introspection will ignore sub resources from the returned fields (more details below)
-
-    // This contains templates for defining the queries and mutations names which will also be used as the operations names
-    templates: {
-        GET_LIST: resourceType => `getPageOf${pluralize(resourceType.name)}`,
-        GET_ONE: resourceType => `get${resourceType.name}`,
-        CREATE: resourceType => `create${resourceType.name}`,
-        UPDATE: resourceType => `update${resourceType.name}`,
-        DELETE: resourceType => `remove${resourceType.name}`,
-    },
 }
 ```
 
@@ -190,18 +225,16 @@ And how you pass them to the `buildApolloClient` function:
 buildApolloClient({ introspection: introspectionOptions });
 ```
 
-**Note**: `excludeXXX` and `includeXXX` are mutualy exclusives and
-that `includeXXX` will always take precendance.
+**Note**: `excludeXXX` and `includeXXX` are mutualy exclusives and `includeXXX` will always take precendance.
 
-`excludeFields` deserves more details. If supplying a function, it
-will receive the following parameters:
+`excludeFields` deserves more details. If supplying a function, it will receive the following parameters:
 
 - `field`: the field definition (see the documentation on
     [introspection](http://graphql.org/learn/introspection/) for more details)
 - `resource`: the resource type (for example: `Post`)
 - `type`: the operation type (matching those of **admin-on-rest**, for example: `GET_LIST`)
 
-`ignoreSubObjects` can be set to `true` to ignore sub objects in queries and mutations results. Consider the following GQL schema:
+`ignoreSubObjects` can be set to `false` to include sub objects in queries and mutations results. Consider the following GQL schema:
 
 ```
     type Customer {
@@ -229,7 +262,7 @@ will receive the following parameters:
     }
 ```
 
-If `ignoreSubObjects` is `true` and `ignoreSubResources` is `true` (the default), the `getOrder` query will be generated like this:
+If `ignoreSubObjects` is `true` (the default) and `ignoreSubResources` is `true` (the default), the `getOrder` query will be generated like this:
 
 ```
     getOrder(id ID!) {
@@ -273,7 +306,7 @@ If `ignoreSubObjects` is `false` and `ignoreSubResources` is `false`, the `getOr
 
 ### Supply your own queries and mutations
 
-You need more control? Then provide your queries with the following format:
+You need even more control? Then provide your queries with the following format:
 
 ```js
 const queries = {
@@ -293,9 +326,6 @@ const queries = {
 buildApolloClient({ queries });
 ```
 
-**Note**: `GET_MANY` and `GET_MANY_REFERENCE` are optional.
-If not specified, `GET_LIST` will be called with the `filter` and `perPage` set to `1000`.
-
 **Note**: You can mix introspection and custom queries by just supplying your custom queries.
 If you want to disable introspection, set the `introspection` option to `false`.
 
@@ -304,6 +334,8 @@ buildApolloClient({ queries, introspection: false });
 ```
 
 ## Realtime updates
+
+**DICLAIMER** This is currently not stable. We have only tested the Apollo polling mechanisms. We still have to investigate subscriptions.
 
 Using ApolloClient, one is able to get real time updates when data changes:
 see their [documentation](http://dev.apollodata.com/core/apollo-client-api.html#ApolloClient\.watchQuery) for details.
@@ -358,7 +390,8 @@ By default, it will use the Apollo polling mechanism with a `pollInterval` of 2 
 ### Customization
 
 You can specify the options to pass to the [watchQuery](http://dev.apollodata.com/core/apollo-client-api.html#ApolloClient\.watchQuery)
-function.
+function:
+
 
 #### For all resources and request types
 
@@ -457,6 +490,12 @@ Or, you can supply a function instead of an object:
 ```
 
 ## Contributing
+
+Run the tests with this command:
+
+```sh
+make test
+```
 
 Coverage data is available in `./coverage` after executing `make test`.
 

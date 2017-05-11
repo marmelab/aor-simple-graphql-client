@@ -36,10 +36,10 @@ const getType = field => {
 const isResource = (field, resources) => {
     const type = getType(field);
 
-    return resources.some(r => r.name === type.name);
+    return resources.some(({ name }) => name === type.name);
 };
 
-export const buildFieldListFromList = (resource, fields, verbType, resources, types, options) => {
+export const buildFieldListFromList = (verbType, resource, fields, resources, types, options) => {
     const { excludeFields, ignoreSubObjects, ignoreSubResources } = options;
     const isExcludedField = isExcludedFieldFactory(resource, verbType, excludeFields);
 
@@ -56,9 +56,9 @@ export const buildFieldListFromList = (resource, fields, verbType, resources, ty
 
                     if (type) {
                         const subFields = buildFieldListFromList(
+                            verbType,
                             resource,
                             type.fields,
-                            verbType,
                             resources,
                             types,
                             options,
@@ -76,5 +76,5 @@ export const buildFieldListFromList = (resource, fields, verbType, resources, ty
         .join(' ');
 };
 
-export default (resource, verbType, resources, types, options) =>
-    buildFieldListFromList(resource, resource.fields, verbType, resources, types, options);
+export default (verbType, resource, resources, types, options) =>
+    buildFieldListFromList(verbType, resource, resource.fields, resources, types, options);
