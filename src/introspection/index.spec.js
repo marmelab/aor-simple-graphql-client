@@ -2,7 +2,7 @@ import expect, { createSpy } from 'expect';
 import merge from 'lodash.merge';
 
 import { buildQueriesForResourceFactory, defaultOptions } from './';
-import { GET_LIST, GET_ONE, CREATE, DELETE, UPDATE } from '../constants';
+import { GET_LIST, GET_ONE } from '../constants';
 
 describe('introspection', () => {
     const fetchSchema = createSpy().andReturn('schema');
@@ -13,14 +13,15 @@ describe('introspection', () => {
         { name: 'InvalidResource' },
     ]);
     const listQueriesFromSchema = createSpy().andReturn([
-        { name: 'getPageOfPosts' },
+        { name: 'getPageOfPost' },
         { name: 'getPost' },
-        { name: 'getPageOfOrders' },
+        { name: 'getPageOfOrder' },
         { name: 'getOrder' },
         { name: 'getPartiallyInvalidResource' },
     ]);
     const listMutationsFromSchema = createSpy().andReturn({ mutation: true });
-    const buildQueriesForResource = createSpy().andReturn('built_queries');
+    const buildQueriesForResourceFromDefinitions = createSpy().andReturn('built_queries');
+    const buildQueriesForResource = createSpy().andReturn(buildQueriesForResourceFromDefinitions);
 
     it('calls fetchSchema with the client', () => {
         buildQueriesForResourceFactory(
@@ -74,7 +75,13 @@ describe('introspection', () => {
     });
 
     it('builds an object with a key for each resource name, filtering invalid resources', async () => {
-        const options = { client: 'client' };
+        const options = {
+            client: 'client',
+            flavor: {
+                [GET_LIST]: { operationName: resource => 'getPageOf' + resource.name },
+                [GET_ONE]: { operationName: resource => 'get' + resource.name },
+            },
+        };
         const queriesByResource = await buildQueriesForResourceFactory(
             fetchSchema,
             listResourcesFromSchema,
@@ -86,24 +93,6 @@ describe('introspection', () => {
         expect(queriesByResource).toEqual({
             Post: 'built_queries',
             Order: 'built_queries',
-        });
-    });
-
-    describe('default templates', () => {
-        it('GET_LIST is ok', () => {
-            expect(defaultOptions.templates[GET_LIST]({ name: 'Post' })).toEqual('getPageOfPosts');
-        });
-        it('GET_ONE is ok', () => {
-            expect(defaultOptions.templates[GET_ONE]({ name: 'Post' })).toEqual('getPost');
-        });
-        it('CREATE is ok', () => {
-            expect(defaultOptions.templates[CREATE]({ name: 'Post' })).toEqual('createPost');
-        });
-        it('UPDATE is ok', () => {
-            expect(defaultOptions.templates[UPDATE]({ name: 'Post' })).toEqual('updatePost');
-        });
-        it('DELETE is ok', () => {
-            expect(defaultOptions.templates[DELETE]({ name: 'Post' })).toEqual('removePost');
         });
     });
 });

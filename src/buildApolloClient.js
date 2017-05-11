@@ -4,6 +4,7 @@ import merge from 'lodash.merge';
 import buildApolloConfiguredClient from './buildApolloConfiguredClient';
 import buildApolloSaga from './realtime';
 import buildQueriesFromIntrospection from './introspection';
+import defaultFlavor from './flavors/default';
 
 export const getClient = ({ client, clientOptions }) => {
     if (client) return client;
@@ -35,10 +36,15 @@ export const getQueries = buildQueriesFromIntrospectionImpl => async options => 
 
     const queriesFromIntrospection = await buildQueriesFromIntrospectionImpl({
         client: options.client,
+        flavor: defaultFlavor,
         ...options.introspection,
     });
 
     return merge({}, queriesFromIntrospection, options.queries);
+};
+
+const defaultOptions = {
+    flavor: defaultFlavor,
 };
 
 /**
@@ -46,17 +52,22 @@ export const getQueries = buildQueriesFromIntrospectionImpl => async options => 
  * @param {Object} options
  */
 export default async options => {
-    let finalOptions = options;
+    let finalOptions = defaultOptions;
 
-    if (!options) {
-        finalOptions = {};
+    if (typeof options === 'string') {
+        finalOptions.uri = options;
     }
+
+    if (typeof options === 'object') {
+        finalOptions = merge({}, defaultOptions, options);
+    }
+
     const client = getClient(finalOptions);
     finalOptions.client = client;
 
     const queries = await getQueries(buildQueriesFromIntrospection)(finalOptions);
 
-    const apolloConfiguredClient = buildApolloConfiguredClient(client, queries);
+    const apolloConfiguredClient = buildApolloConfiguredClient(client, finalOptions.flavor, queries);
     /**
      * @param {string} type Request type, e.g GET_LIST
      * @param {string} resource Resource name, e.g. "posts"

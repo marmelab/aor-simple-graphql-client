@@ -4,6 +4,8 @@ import { TypeKind } from 'graphql';
 import buildFieldList from './buildFieldList';
 
 describe('buildFieldList', () => {
+    const verbType = 'a_type';
+
     const resource = {
         fields: [
             { name: '__privateField', type: { kind: TypeKind.SCALAR } },
@@ -15,20 +17,20 @@ describe('buildFieldList', () => {
     };
 
     it('only filters private graphql fields without options.excludeFields', () => {
-        expect(buildFieldList(resource, 'a_type', [], [], {})).toEqual(
+        expect(buildFieldList(verbType, resource, [], [], {})).toEqual(
             'publicField1 publicField2 publicField3 publicField4',
         );
     });
 
     it('also filters excluded fields with options.excludeFields being an array', () => {
-        expect(buildFieldList(resource, 'a_type', [], [], { excludeFields: ['publicField2'] })).toEqual(
+        expect(buildFieldList(verbType, resource, [], [], { excludeFields: ['publicField2'] })).toEqual(
             'publicField1 publicField3 publicField4',
         );
     });
 
     it('calls options.excludeFields with correct arguments when it is a function and apply its filter', () => {
         const excludeFields = createSpy().andCall(field => field.name === 'publicField1');
-        expect(buildFieldList(resource, 'a_type', [], [], { excludeFields })).toEqual(
+        expect(buildFieldList(verbType, resource, [], [], { excludeFields })).toEqual(
             'publicField2 publicField3 publicField4',
         );
 
@@ -68,7 +70,7 @@ describe('buildFieldList', () => {
             ],
         };
 
-        expect(buildFieldList(resourceWithSubObject, 'a_type', [], [], { ignoreSubObjects: true })).toEqual(
+        expect(buildFieldList(verbType, resourceWithSubObject, [], [], { ignoreSubObjects: true })).toEqual(
             'publicField1 publicField3 publicField5',
         );
     });
@@ -118,7 +120,7 @@ describe('buildFieldList', () => {
             ],
         };
 
-        expect(buildFieldList(resourceWithSubObject, 'a_type', resources, types, {})).toEqual(
+        expect(buildFieldList(verbType, resourceWithSubObject, resources, types, {})).toEqual(
             'publicField1 publicField4 { publicSubField1 publicSubField2 } publicField6 publicField7 { publicSubField1 publicSubField2 } publicField9 publicField10 { publicSubField1 publicSubField2 }',
         );
     });
@@ -175,7 +177,7 @@ describe('buildFieldList', () => {
             ],
         };
 
-        expect(buildFieldList(resourceWithSubObject, 'a_type', resources, types, {})).toEqual(
+        expect(buildFieldList(verbType, resourceWithSubObject, resources, types, {})).toEqual(
             'publicField1 publicField4 { publicSubField1 publicSubField2 } publicField5 { publicSubField1 publicSubField2 } publicField6 publicField7 { publicSubField1 publicSubField2 } publicField8 { publicSubField1 publicSubField2 } publicField9 publicField10 { publicSubField1 publicSubField2 } publicField11 { publicSubField1 publicSubField2 }',
         );
     });
