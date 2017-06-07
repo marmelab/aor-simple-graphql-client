@@ -5,6 +5,7 @@ import buildQueriesForResource from './buildQueriesForResource';
 import listMutationsFromSchema from './listMutationsFromSchema';
 import listResourcesFromSchema from './listResourcesFromSchema';
 import listQueriesFromSchema from './listQueriesFromSchema';
+import defaultFlavor from '../flavors/default';
 import { GET_LIST, GET_ONE } from '../constants';
 
 const REQUIRED_RESOURCE_KEYS = [GET_LIST, GET_ONE];
@@ -24,6 +25,7 @@ export const defaultOptions = {
     excludeMutations: null,
     excludeFields: null,
     ignoreSubObjects: false,
+    flavor: defaultFlavor,
 };
 
 export const buildQueriesForResourceFactory = (
@@ -40,7 +42,6 @@ export const buildQueriesForResourceFactory = (
     const types = listResourcesFromSchemaImpl(schema, options);
     const resourceTypes = types.filter(isValidResource(queries, options.flavor));
     const buildQueriesForResourceFromDefinitions = buildQueriesForResourceImpl(options.flavor);
-
     const introspectedQueries = resourceTypes.reduce(
         (queriesByResource, resourceType) => ({
             ...queriesByResource,

@@ -82,7 +82,7 @@ run an introspection query on your graphql endpoint.
 
 By default, it expect the following queries and mutations for each resource:
 
-### List resources with pagination
+### List resources with pagination
 
 Example with resource `Post`:
 
