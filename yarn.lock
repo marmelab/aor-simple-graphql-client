@@ -32,9 +32,9 @@ acorn@^5.0.1:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.0.3.tgz#c460df08491463f028ccb82eab3730bf01087b3d"
 
-admin-on-rest@~1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/admin-on-rest/-/admin-on-rest-1.0.1.tgz#9929a3022455b882a69c16c745230b9752cc51f5"
+admin-on-rest@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/admin-on-rest/-/admin-on-rest-1.1.0.tgz#5443a1e29666a37fc5e683f98bfcacb4fadccea4"
   dependencies:
     babel-runtime "~6.18.0"
     inflection "~1.12.0"
@@ -43,6 +43,7 @@ admin-on-rest@~1.0.1:
     lodash.get "~4.4.2"
     lodash.set "~4.3.2"
     material-ui "~0.17.4"
+    material-ui-chip-input "~0.13.5"
     node-polyglot "2.2.2"
     prop-types "~15.5.7"
     query-string "~4.3.2"
@@ -2629,6 +2630,12 @@ lru-cache@^4.0.1:
   dependencies:
     pseudomap "^1.0.1"
     yallist "^2.0.0"
+
+material-ui-chip-input@~0.13.5:
+  version "0.13.6"
+  resolved "https://registry.yarnpkg.com/material-ui-chip-input/-/material-ui-chip-input-0.13.6.tgz#ca5f50c85da1f7a3e02532513f95cc471fd15d30"
+  dependencies:
+    prop-types "^15.5.7"
 
 material-ui@~0.17.4:
   version "0.17.4"
