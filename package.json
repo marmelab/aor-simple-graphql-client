@@ -1,6 +1,6 @@
 {
   "name": "aor-simple-graphql-client",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A simple GraphQL client for admin-on-rest",
   "main": "./lib/index.js",
   "repository": "https://github.com/marmelab/aor-simple-graphql-client.git",
