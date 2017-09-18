@@ -1,5 +1,7 @@
 # aor-simple-graphql-client
 
+> **Deprecated**: Work on GraphQL integration has been moved to [aor-graphql](https://github.com/marmelab/aor-graphql)
+
 [![Build Status](https://travis-ci.org/marmelab/aor-simple-graphql-client.svg?branch=master)](https://travis-ci.org/marmelab/aor-simple-graphql-client)
 
 A simple GraphQL client for [admin-on-rest](https://github.com/marmelab/admin-on-rest/)
